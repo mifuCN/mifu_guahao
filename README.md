@@ -2,91 +2,83 @@
 
 基于SpringCloud+Vue的医院挂号系统
 
-## Getting started
+本项目是一个完整的微服务预约挂号平台，包含 3 个系统：
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+1. 预约挂号系统前台
+2. 预约挂号系统管理员后台
+3. 外部医院管理后台
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 技术栈
 
-## Add your files
+#### 前端
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+1. Vue
+2. vue-admin-template 管理员模板
+3. VueQriously 二维码生成库
+4. babel
+5. webpack
+6. nuxt 服务端渲染
+7. element ui
 
-```
-cd existing_repo
-git remote add origin http://gitlab.code-nav.cn/mifuRD/mifu_guahao.git
-git branch -M master
-git push -uf origin master
-```
+#### 后端
 
-## Integrate with your tools
+微服务：
 
-- [ ] [Set up project integrations](http://gitlab.code-nav.cn/mifuRD/mifu_guahao/-/settings/integrations)
+1. Spring Cloud Alibaba 框架
+2. Nacos 注册中心
+3. Spring Cloud Feign 远程调用
+4. Spring Cloud Gateway 微服务网关
+5. Maven 子父多模块
+6. Docker（部署项目、安装服务）
 
-## Collaborate with your team
+数据存储：
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+1. MongoDB：负责存医院基本信息（性能更高）
+2. MySQL：存储用户、订单、预约等关系信息
 
-## Test and Deploy
+中间件：
 
-Use the built-in continuous integration in GitLab.
+1. Redis：缓存、存储验证码
+2. RabbitMQ：应用解耦、消息通知
+3. Nginx：部署项目
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+工具库：
 
-***
+1. easy excel：读写 Excel 文件
+2. Json Web Token：生成 jwt token
+3. Joda Time：日期时间操作
 
-# Editing this README
+## 重点知识总结
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. 微服务的思想、划分以及实现方式，以及相关技术的用法：
+2. 注册中心以及配置中心
+3. 客户端调用
+4. 微服务网关
+5. 熟悉一个完整的业务流程（信息发布 => 信息展示 => 购买 => 下单支付 => 统计管理）
+6. 登录认证机制，包括手机号登录、微信扫码登录、OAuth、JWT 等知识
+7. 如何运用合适的数据库来解决问题？比如 MySQL 存储关系型数据、Redis 用于缓存、MongoDB 存储一些非关系型的数据（提高访问速度）、RabbitMQ 来实现异步通知和应用解耦。
+8. 调用第三方 API 来解决实际问题，比如微信接口、OSS、SMS
+9. 项目的目录结构及编码规范，比如通用返回对象、全局异常处理器、ContextHolder 等
+10. 提升前端开发的经验，比如 Nuxt 框架的使用，了解服务端渲染
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 经验总结
 
-## Name
-Choose a self-explaining name for your project.
+1. 已经学完 SpringBoot、微服务的大致的知识，比较适合把这个项目作为第一个微服务的练手项目比较合适，学习技术的整合运用、接触更多的业务场景。
+2. 项目非常真实完整、贴合实际，学完这个项目后，也能搞懂电商平台的业务流程了，可以不用再做类似业务的项目。
+3. 项目的坑那是非常非常多啊，通过这个项目直接升华了自己的debug 能力（狗头）。
+4. 项目用到了微信登录和支付，适合入门学习。但由于只有企业账号才能使用这些微信接口，所以学习时主要是了解流程，实际开发中再看文档就好了，不用花很多时间折腾。
+5. 时间原因，有些功能的实现并不完美（比如下单功能没有考虑并发安全问题，可能导致超卖）。此外，项目也没有用到并发编程、设计模式和自定义的 SQL 查询，这些有时间的话再来后期优化。
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## 简历重点
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. 基于 Spring Cloud + Nacos 实现项目的微服务化，划分项目为公共、用户、订单等服务，提高项目的可扩展性和容错性。
+2. 使用 Spring Data 注解实现自动 Redis 缓存，并通过自定义 Redis Key Generator 来根据类和方法自动生成 key，降低开发成本、避免 key 冲突。
+3. 使用 Spring Cloud Gateway 实现微服务请求转发，并在网关层全局解决跨域、用户鉴权、黑白名单、内网服务保护等问题，降低开发成本、提高安全性。
+4. 提供 Restful API 供外部系统接入并上报数据，并通过 API 签名认证保障了接口的安全性。
+5. 使用 JWT 实现单点登录，并支持手机验证码、OAuth2 微信扫码登录，提高用户真实性和登录安全性
+6. 对接微信支付 API 实现预约付款，并通过全局唯一 id 以及支付 / 退款记录表的设计保证了支付操作的幂等性
+7. 使用 MongoDB 代替 MySQL 存储读多写少的半结构化数据（如医院信息），实测查询性能提高 xx%。（还没用JMeter 测试）
+8. 基于 Docker 快速搭建项目依赖服务（如 RabbitMQ），并通过 Docker log 命令查看日志，降低本地开发运维成本。
+9. 为应对流量高峰，使用 RabbitMQ 将下单减库存等耗时操作异步化，提升下单接口单机 QPS（xx 至 xx）
+10. 使用 Spring Scheduler 实现定时预约提醒功能，并使用 RabbitMQ 实现定时服务和通知服务的解耦，提高服务可维护性。
+11. 使用 Nuxt 框架实现服务端渲染，提高网页首屏加载速度（xx 秒至 xx 秒）。
