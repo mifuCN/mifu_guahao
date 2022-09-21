@@ -1,0 +1,52 @@
+server:
+  port: 8333
+knife4j:
+  enableAggregation: true
+  nacos:
+    enable: true
+    serviceUrl: http://@yygh.nacos.ip@:@yygh.nacos.port@/nacos
+    routeAuth:
+      enable: true
+      username: @yygh.nacos.username@
+      password: @yygh.nacos.password@
+    routes:
+      - name: 短信服务模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-sms
+        location: v3/api-docs?group=fu
+        servicePath: /sms
+      - name: 订单服务模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-order
+        location: v3/api-docs?group=fu
+        servicePath: /order
+      - name: 就医提醒模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-task
+        location: v3/api-docs?group=fu
+        servicePath: /task
+      - name: 医院模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-hosp
+        location: v3/api-docs?group=fu
+        servicePath: /hosp
+      - name: OSS对象存储服务模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-oss
+        location: v3/api-docs?group=fu
+        servicePath: /oss
+      - name: 用户模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-user
+        location: v3/api-docs?group=fu
+        servicePath: /user
+      - name: 预约统计模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-statistics
+        location: v3/api-docs?group=fu
+        servicePath: /statistics
+      - name: 数据字典模块
+        namespace-id: @yygh.nacos.namespace@
+        serviceName: service-cmn
+        location: v3/api-docs?group=fu
+        servicePath: /cmn

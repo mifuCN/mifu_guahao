@@ -23,7 +23,8 @@
 		<module>hospital-manage</module>
         <module>service-client</module>
         <module>gateway</module>
-    </modules>
+		<module>doc</module>
+	</modules>
 
 	<!-- 环境 -->
 	<profiles>
@@ -124,7 +125,7 @@
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-boot-starter</artifactId>
-				<version>3.0.0</version>
+				<version>${swagger.version}</version>
 			</dependency>
 
 			<dependency>

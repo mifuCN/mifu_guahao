@@ -20,6 +20,7 @@ public class Swagger2Config {
     public Docket webApiConfig(){
 
         return new Docket(DocumentationType.OAS_30)
+                .groupName("fu")
                 .apiInfo(webApiInfo())
                 .select()
                 .paths(PathSelectors.regex("/error").negate())//swagger3中去掉base-error-controller的方法
@@ -29,10 +30,10 @@ public class Swagger2Config {
 
     private ApiInfo webApiInfo(){
         return new ApiInfoBuilder()
-                .title("第三方医院系统-API文档")
-                .description("本文档描述了网站微服务接口定义")
+                .title("第三方医院资料导入系统-API文档")
+                .description("长风破浪会有时,直挂云帆济沧海")
                 .version("1.0")
-                .contact(new Contact("mifu", "https://201314.tk/", "1755786251@qq.com"))
+                .contact(new Contact("MiFu的Blog", "https://201314.tk/", "1755786251@qq.com"))
                 .build();
     }
 }
