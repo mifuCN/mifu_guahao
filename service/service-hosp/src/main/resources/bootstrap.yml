@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @yygh.profile.name@
+  cloud:
+    nacos:
+      username: @yygh.nacos.username@
+      password: @yygh.nacos.password@
+      discovery:
+        server-addr: @yygh.nacos.ip@:@yygh.nacos.port@
+        group: DEFAULT_GROUP
+        namespace: @yygh.nacos.namespace@
+      config:
+        server-addr: @yygh.nacos.ip@:@yygh.nacos.port@
+        file-extension: yml
+        group: DEFAULT_GROUP
+        namespace: @yygh.nacos.namespace@
