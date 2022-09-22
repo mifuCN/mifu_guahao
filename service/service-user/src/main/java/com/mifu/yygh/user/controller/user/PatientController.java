@@ -14,9 +14,6 @@ import java.util.List;
  * <p>
  * 就诊人表 前端控制器
  * </p>
- *
- * @author mifu
- * @since 2022-09-16
  */
 @RestController
 @RequestMapping("/user/userinfo/patient")

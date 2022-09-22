@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
  * <p>
  * 医院设置表 服务实现类
  * </p>
- *
- * @author mifu
- * @since 2022-09-19
  */
 @Service
 public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, HospitalSet> implements HospitalSetService {

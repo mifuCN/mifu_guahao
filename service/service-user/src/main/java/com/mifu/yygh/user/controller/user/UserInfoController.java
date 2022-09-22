@@ -17,9 +17,6 @@ import java.util.Map;
  * <p>
  * 用户表 前端控制器
  * </p>
- *
- * @author mifu
- * @since 2022-09-11
  */
 @RestController
 @RequestMapping("/user/userinfo")

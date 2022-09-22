@@ -25,9 +25,6 @@ import java.util.List;
  * <p>
  * 组织架构表 服务实现类
  * </p>
- *
- * @author mifu
- * @since 2022-09-10
  */
 @Service
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {

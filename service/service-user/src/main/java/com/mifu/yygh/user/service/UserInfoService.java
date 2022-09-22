@@ -13,9 +13,6 @@ import java.util.Map;
  * <p>
  * 用户表 服务类
  * </p>
- *
- * @author mifu
- * @since 2022-09-11
  */
 public interface UserInfoService extends IService<UserInfo> {
 

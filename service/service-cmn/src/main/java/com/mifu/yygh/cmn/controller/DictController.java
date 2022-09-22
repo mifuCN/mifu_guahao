@@ -16,9 +16,6 @@ import java.util.List;
  * <p>
  * 组织架构表 前端控制器
  * </p>
- *
- * @author mifu
- * @since 2022-09-10
  */
 @RestController
 @RequestMapping("/admin/cmn")

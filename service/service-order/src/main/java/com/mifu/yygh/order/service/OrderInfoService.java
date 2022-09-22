@@ -13,9 +13,6 @@ import java.util.Map;
  * <p>
  * 订单表 服务类
  * </p>
- *
- * @author mifu
- * @since 2022-09-18
  */
 public interface OrderInfoService extends IService<OrderInfo> {
 

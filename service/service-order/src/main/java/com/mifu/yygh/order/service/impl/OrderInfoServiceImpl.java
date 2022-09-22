@@ -39,9 +39,6 @@ import java.util.stream.Collectors;
  * <p>
  * 订单表 服务实现类
  * </p>
- *
- * @author mifu
- * @since 2022-09-18
  */
 @Service
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo> implements OrderInfoService {

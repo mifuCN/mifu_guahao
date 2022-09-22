@@ -28,9 +28,6 @@ import java.util.Map;
  * <p>
  * 用户表 服务实现类
  * </p>
- *
- * @author mifu
- * @since 2022-09-11
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {

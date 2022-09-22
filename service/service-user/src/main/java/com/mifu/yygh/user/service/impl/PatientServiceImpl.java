@@ -17,9 +17,6 @@ import java.util.List;
  * <p>
  * 就诊人表 服务实现类
  * </p>
- *
- * @author mifu
- * @since 2022-09-16
  */
 @Service
 public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> implements PatientService {

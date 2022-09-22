@@ -13,9 +13,6 @@ import java.util.List;
  * <p>
  * 组织架构表 服务类
  * </p>
- *
- * @author mifu
- * @since 2022-09-10
  */
 public interface DictService extends IService<Dict> {
 

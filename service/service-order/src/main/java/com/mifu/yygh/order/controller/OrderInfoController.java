@@ -19,9 +19,6 @@ import java.util.Map;
  * <p>
  * 订单表 前端控制器
  * </p>
- *
- * @author mifu
- * @since 2022-09-18
  */
 @RestController
 @RequestMapping("/api/order/orderInfo")
