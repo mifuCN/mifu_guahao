@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.mifu</groupId>
-            <artifactId>service_cmn_client</artifactId>
+            <artifactId>service-cmn-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

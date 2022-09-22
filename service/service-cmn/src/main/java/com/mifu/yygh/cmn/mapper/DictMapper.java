@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author mifu
- * @since 2022-08-23
+ * @since 2022-09-10
  */
 public interface DictMapper extends BaseMapper<Dict> {
 

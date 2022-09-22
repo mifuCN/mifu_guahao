@@ -15,7 +15,7 @@ import java.util.Map;
  * </p>
  *
  * @author mifu
- * @since 2022-09-01
+ * @since 2022-09-11
  */
 public interface UserInfoService extends IService<UserInfo> {
 

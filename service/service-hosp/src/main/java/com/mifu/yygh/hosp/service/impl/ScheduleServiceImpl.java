@@ -319,7 +319,7 @@ public class ScheduleServiceImpl  implements ScheduleService {
         Integer cycle = bookingRule.getCycle();
         //此时此刻是否已经超过了医院规定的当天的挂号起始时间，如果此时此刻已经超过了：cycle+1
         String releaseTime = bookingRule.getReleaseTime();
-        //今天医院规定的挂号的起始时间：2022-06-07 08:30
+        //今天医院规定的挂号的起始时间：2022-09-20 08:30
         DateTime dateTime = this.getDateTime(new Date(), releaseTime);
         if(dateTime.isBeforeNow()){
             cycle=cycle+1;

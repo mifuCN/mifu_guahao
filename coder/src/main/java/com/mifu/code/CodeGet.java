@@ -20,7 +20,7 @@ public class CodeGet {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         //gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setOutputDir("D:\\Mp_Code_Generator");
+        gc.setOutputDir("D:\\Mp_Code_Generator");// 这里我还是想自己审查一下生成的代码 先不放入生产目录  没问题自己手动粘过来
 
         gc.setServiceName("%sService");	//去掉Service接口的首字母I
         gc.setAuthor("mifu");

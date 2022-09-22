@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author mifu
- * @since 2022-08-18
+ * @since 2022-09-09
  */
 public interface HospitalSetService extends IService<HospitalSet> {
 
