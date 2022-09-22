@@ -101,21 +101,13 @@ public class HospitalSetController {
         return R.ok().data("items",list);
     }
 
-    //
-    //根据医院设置id删除医院设置信息
-    @ApiOperation(value = "根据医院设置id删除医院设置信息")
+    //根据id删除医院设置信息(逻辑删除)  有MP的@TableLogic注解
+    @ApiOperation(value = "根据id删除医院设置信息(逻辑删除)")
     @DeleteMapping(value = "/deleteById/{id}")
     public R deleteById(@PathVariable Integer id){
         hospitalSetService.removeById(id);
         return R.ok();
     }
-
-    //string: prefix +string+suffix.html:PC
-    //项目 json格式：PC+物手机+联网
-
-    //boolean:
-
-
     //List<>
     /*=============================================
           @Api(tags=""):标记在接口类上
@@ -124,7 +116,6 @@ public class HospitalSetController {
 
           @ApiModel(description=")：对POJO类做说明
           @ApiModelProperty(value=")：对POJO类属性做说明
-
       ============================================*/
 }
 

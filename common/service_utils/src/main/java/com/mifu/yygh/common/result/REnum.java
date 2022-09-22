@@ -1,9 +1,8 @@
 package com.mifu.yygh.common.result;
 
 public enum REnum {
-    SUCCESS(20000,"成功",true),
-    ERROR(20001,"失败",false)
-    ;
+    SUCCESS(20000, "成功", true),
+    ERROR(20001, "失败", false);
     //枚举项：
     private Integer code;
     private String message;

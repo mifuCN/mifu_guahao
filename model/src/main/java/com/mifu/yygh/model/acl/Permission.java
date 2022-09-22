@@ -15,7 +15,6 @@ import java.util.List;
  * </p>
  *
  * @author mifu
- * @since 2021-11-08
  */
 @Data
 @ApiModel(description = "权限")

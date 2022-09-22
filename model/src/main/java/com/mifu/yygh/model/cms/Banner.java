@@ -13,7 +13,6 @@ import lombok.Data;
  * </p>
  *
  * @author mifu
- * @since 2021-11-08
  */
 @Data
 @ApiModel(description = "首页Banner实体")

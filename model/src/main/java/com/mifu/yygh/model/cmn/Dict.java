@@ -59,7 +59,7 @@ public class Dict {
 
     @ApiModelProperty(value = "其他参数")
     @TableField(exist = false)
-    private Map<String,Object> param = new HashMap<>();
+    private Map<String, Object> param = new HashMap<>();
 
     @ApiModelProperty(value = "是否包含子节点")
     @TableField(exist = false) //存储临时数据使用的

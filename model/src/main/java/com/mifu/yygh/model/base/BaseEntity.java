@@ -20,7 +20,7 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "创建时间")
-   // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField("create_time")
     private Date createTime;
 
@@ -36,5 +36,5 @@ public class BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "其他参数")
     @TableField(exist = false)
-    private Map<String,Object> param = new HashMap<>();
+    private Map<String, Object> param = new HashMap<>();
 }
