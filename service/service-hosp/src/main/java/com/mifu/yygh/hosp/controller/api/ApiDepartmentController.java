@@ -22,7 +22,7 @@ public class ApiDepartmentController {
 
     //医院的删除
     @PostMapping("/department/remove")
-    public Result remove(HttpServletRequest httpServletRequest){
+    public Result remove(HttpServletRequest httpServletRequest) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(httpServletRequest.getParameterMap());
         //signkey验证
         departmentService.remove(stringObjectMap);
@@ -32,15 +32,15 @@ public class ApiDepartmentController {
 
     //查询科室信息
     @PostMapping("/department/list")
-    public Result<Page> getDepartmentPage(HttpServletRequest httpServletRequest){
+    public Result<Page> getDepartmentPage(HttpServletRequest httpServletRequest) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(httpServletRequest.getParameterMap());
         //1.验证signkey
-        Page<Department> page= departmentService.getDepartmentPage(stringObjectMap);
+        Page<Department> page = departmentService.getDepartmentPage(stringObjectMap);
         return Result.ok(page);
     }
 
     @PostMapping("/saveDepartment")
-    public Result saveDepartment(HttpServletRequest request){
+    public Result saveDepartment(HttpServletRequest request) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(request.getParameterMap());
         //验证：signkey
         departmentService.saveDepartment(stringObjectMap);

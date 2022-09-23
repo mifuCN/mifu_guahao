@@ -12,22 +12,22 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group posf">
                 <div class="col-sm-4 col-sm-offset-2">
-                    <button class="btn btn-primary" type="button" onclick="goBack()">返 回</button>
-                    <button class="btn btn-primary" type="button" onclick="opt.closeWin();">关闭</button>
+                    <button class="btn btn-primary" onclick="goBack()" type="button">返 回</button>
+                    <button class="btn btn-primary" onclick="opt.closeWin();" type="button">关闭</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function goBack(){
-        try{
-            if(window.opener){
+    function goBack() {
+        try {
+            if (window.opener) {
                 window.close();
-            }else{
+            } else {
                 history.go(-1);
             }
-        }catch(err){
+        } catch (err) {
         }
     }
 </script>

@@ -11,6 +11,6 @@ import java.util.Map;
 public interface OrderInfoFeignClient {
 
     @PostMapping("/api/order/orderInfo/statistics")
-    public Map<String,Object> statistics(@RequestBody OrderCountQueryVo orderCountQueryVo);
+    public Map<String, Object> statistics(@RequestBody OrderCountQueryVo orderCountQueryVo);
 
 }

@@ -16,13 +16,12 @@ import java.util.List;
 public class UserDepartmentController {
 
 
-
     @Autowired
     private DepartmentService departmentService;
 
     @GetMapping("/all/{hoscode}")
-    public R findAll(@PathVariable String hoscode){
-       List<DepartmentVo> departmentList= departmentService.getDepartmentList(hoscode);
-       return R.ok().data("list",departmentList);
+    public R findAll(@PathVariable String hoscode) {
+        List<DepartmentVo> departmentList = departmentService.getDepartmentList(hoscode);
+        return R.ok().data("list", departmentList);
     }
 }

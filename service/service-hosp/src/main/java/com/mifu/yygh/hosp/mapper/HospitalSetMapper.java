@@ -1,8 +1,8 @@
 package com.mifu.yygh.hosp.mapper;
 
 
-import com.mifu.yygh.model.hosp.HospitalSet;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mifu.yygh.model.hosp.HospitalSet;
 
 /**
  * <p>

@@ -13,6 +13,6 @@ public class StatisticsService {
     private OrderInfoFeignClient orderInfoFeignClient;
 
     public Map<String, Object> statistics(OrderCountQueryVo orderCountQueryVo) {
-       return orderInfoFeignClient.statistics(orderCountQueryVo);
+        return orderInfoFeignClient.statistics(orderCountQueryVo);
     }
 }

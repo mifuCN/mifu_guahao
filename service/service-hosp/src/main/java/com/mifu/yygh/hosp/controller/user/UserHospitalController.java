@@ -22,26 +22,25 @@ public class UserHospitalController {
 
 
     @GetMapping("/list")
-    public R getHospitalList(HospitalQueryVo hospitalQueryVo){
+    public R getHospitalList(HospitalQueryVo hospitalQueryVo) {
         Page<Hospital> page = hospitalService.getHospitalPage(1, 10000000, hospitalQueryVo);
-        return R.ok().data("list",page.getContent());
+        return R.ok().data("list", page.getContent());
     }
 
 
     //不建议：接口复用
     @GetMapping("/{name}")
-    public R findByName(@PathVariable String name){
-         List<Hospital> list= hospitalService.findByNameLike(name);
-        return R.ok().data("list",list);
+    public R findByName(@PathVariable String name) {
+        List<Hospital> list = hospitalService.findByNameLike(name);
+        return R.ok().data("list", list);
     }
 
 
     @GetMapping("/detail/{hoscode}")
-    public R getHospitalDetail(@PathVariable String hoscode){
-        Hospital hospital= hospitalService.getHospitalDetail(hoscode);
-        return R.ok().data("hospital",hospital);
+    public R getHospitalDetail(@PathVariable String hoscode) {
+        Hospital hospital = hospitalService.getHospitalDetail(hoscode);
+        return R.ok().data("hospital", hospital);
     }
-
 
 
 }

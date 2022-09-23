@@ -14,6 +14,6 @@ public interface DictFeignClient {
 
     //根据医院的等级编号获取医院等级信息
     @GetMapping("/admin/cmn/{dictCode}/{value}")
-    public String getNameByDictCodeAndValue(@PathVariable("dictCode") String dictCode,@PathVariable("value") Long value);
+    public String getNameByDictCodeAndValue(@PathVariable("dictCode") String dictCode, @PathVariable("value") Long value);
 
 }

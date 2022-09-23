@@ -1,8 +1,8 @@
 package com.mifu.yygh.model.base;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.data.annotation.Id;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;

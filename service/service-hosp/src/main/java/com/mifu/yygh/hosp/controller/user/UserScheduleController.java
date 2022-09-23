@@ -22,19 +22,16 @@ public class UserScheduleController {
     private ScheduleService scheduleService;
 
 
-
-
-
     @GetMapping("/{scheduleId}")
-    public ScheduleOrderVo getScheduleById(@PathVariable(value = "scheduleId") String scheduleId){
+    public ScheduleOrderVo getScheduleById(@PathVariable(value = "scheduleId") String scheduleId) {
         return scheduleService.getScheduleById(scheduleId);
     }
 
     //根据排班id获取排班信息
     @GetMapping("/info/{scheduleId}")
-    public R getScheduleInfo(@PathVariable String scheduleId){
-        Schedule schedule=scheduleService.getScheduleInfo(scheduleId);
-        return R.ok().data("schedule",schedule);
+    public R getScheduleInfo(@PathVariable String scheduleId) {
+        Schedule schedule = scheduleService.getScheduleInfo(scheduleId);
+        return R.ok().data("schedule", schedule);
     }
 
 
@@ -42,9 +39,9 @@ public class UserScheduleController {
     public R getSchedulePage(@PathVariable String hoscode,
                              @PathVariable String depcode,
                              @PathVariable Integer pageNum,
-                             @PathVariable Integer pageSize){
+                             @PathVariable Integer pageSize) {
 
-        Map<String,Object> map=scheduleService.getSchedulePageByCondition(hoscode,depcode,pageNum,pageSize);
+        Map<String, Object> map = scheduleService.getSchedulePageByCondition(hoscode, depcode, pageNum, pageSize);
         return R.ok().data(map);
     }
 
@@ -52,10 +49,10 @@ public class UserScheduleController {
     @GetMapping("/{hoscode}/{depcode}/{workdate}")
     public R getScheduleDetail(@PathVariable String hoscode,
                                @PathVariable String depcode,
-                               @PathVariable String workdate){
+                               @PathVariable String workdate) {
 
         List<Schedule> details = scheduleService.detail(hoscode, depcode, workdate);
 
-        return R.ok().data("details",details);
+        return R.ok().data("details", details);
     }
 }

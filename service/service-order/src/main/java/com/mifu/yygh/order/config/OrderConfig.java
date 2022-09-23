@@ -9,16 +9,18 @@ public class OrderConfig {
 
 
     @Bean
-    public Exchange getExchange(){
+    public Exchange getExchange() {
         return ExchangeBuilder.directExchange(MqConst.EXCHANGE_DIRECT_ORDER).durable(true).build();
     }
+
     @Bean
-    public Queue getQueue(){
+    public Queue getQueue() {
         return QueueBuilder.durable(MqConst.QUEUE_ORDER).build();
     }
+
     @Bean
-    public Binding binding(@Qualifier("getQueue") Queue queue,@Qualifier("getExchange") Exchange exchange){
-       return BindingBuilder.bind(queue).to(exchange).with(MqConst.ROUTING_ORDER).noargs();
+    public Binding binding(@Qualifier("getQueue") Queue queue, @Qualifier("getExchange") Exchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(MqConst.ROUTING_ORDER).noargs();
     }
 }
 

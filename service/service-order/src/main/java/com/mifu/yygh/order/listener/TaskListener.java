@@ -20,11 +20,11 @@ public class TaskListener {
     @RabbitListener(bindings = {
             @QueueBinding(
                     value = @Queue(name = MqConst.QUEUE_TASK_8),
-                    exchange =@Exchange(name = MqConst.EXCHANGE_DIRECT_TASK),
+                    exchange = @Exchange(name = MqConst.EXCHANGE_DIRECT_TASK),
                     key = MqConst.ROUTING_TASK_8
             )
     })
-    public void patientRemind(Message message, Channel channel){
+    public void patientRemind(Message message, Channel channel) {
         orderInfoService.patientRemind();
     }
 }

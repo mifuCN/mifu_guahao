@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PatientRemindJob {
-     //Quartz:
+    //Quartz:
 
     //Quartz:cron表达式:   秒  分  时  dayofMonth Month dayOfWeek  Year[最高到2099年]
     //*:表示任意xxx
@@ -20,10 +20,10 @@ public class PatientRemindJob {
     @Autowired
     private RabbitService rabbitService;
 
-    @Scheduled(cron="*/30 * * * * *")
-    public  void printTime(){
-       // System.out.println(new DateTime().toString("yyyy-MM-dd HH:mm:ss"));
-        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_TASK,MqConst.ROUTING_TASK_8," ");
+    @Scheduled(cron = "*/30 * * * * *")
+    public void printTime() {
+        // System.out.println(new DateTime().toString("yyyy-MM-dd HH:mm:ss"));
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_TASK, MqConst.ROUTING_TASK_8, " ");
     }
 
     //在springboot定时任务使用：1.在主启动类上加@EnableScheduling 2.在定时任务Job的方法上加@Scheduled并指定石英表达式

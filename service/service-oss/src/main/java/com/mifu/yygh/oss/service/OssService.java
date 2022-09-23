@@ -29,15 +29,15 @@ public class OssService {
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
-        String fileName = new DateTime().toString("yyyy/MM/dd") + UUID.randomUUID().toString().replaceAll("-","")+file.getOriginalFilename();
+        String fileName = new DateTime().toString("yyyy/MM/dd") + UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename();
 
         try {
             // 创建PutObject请求。
             ossClient.putObject(bucketName, fileName, file.getInputStream());
-            return " https://"+ossProperties.getBucketname()+"."+ossProperties.getEndpoint()+"/"+fileName;
-        } catch(Exception ce) {
+            return " https://" + ossProperties.getBucketname() + "." + ossProperties.getEndpoint() + "/" + fileName;
+        } catch (Exception ce) {
             System.out.println(ce.getMessage());
-            return  null;
+            return null;
         } finally {
             if (ossClient != null) {
                 ossClient.shutdown();

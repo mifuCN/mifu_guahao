@@ -8,6 +8,11 @@ public enum StatusEnum {
     private String statusString;
 
 
+    StatusEnum(Integer status, String statusString) {
+        this.status = status;
+        this.statusString = statusString;
+    }
+
     public static String getStatusStringByStatus(Integer status) {
         StatusEnum[] values = StatusEnum.values();
         for (StatusEnum value : values) {
@@ -16,11 +21,6 @@ public enum StatusEnum {
             }
         }
         return "";
-    }
-
-    StatusEnum(Integer status, String statusString) {
-        this.status = status;
-        this.statusString = statusString;
     }
 
     public Integer getStatus() {

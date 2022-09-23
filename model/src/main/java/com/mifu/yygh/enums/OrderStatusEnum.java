@@ -15,6 +15,11 @@ public enum OrderStatusEnum {
     private Integer status;
     private String comment;
 
+    OrderStatusEnum(Integer status, String comment) {
+        this.comment = comment;
+        this.status = status;
+    }
+
     public static String getStatusNameByStatus(Integer status) {
         OrderStatusEnum arrObj[] = OrderStatusEnum.values();
         for (OrderStatusEnum obj : arrObj) {
@@ -36,11 +41,6 @@ public enum OrderStatusEnum {
             list.add(map);
         }
         return list;
-    }
-
-    OrderStatusEnum(Integer status, String comment) {
-        this.comment = comment;
-        this.status = status;
     }
 
     public String getComment() {

@@ -30,9 +30,9 @@ public class UserInfoController {
     //save 只能做添加 | save添加|修改
 
     @PutMapping("/update")
-    public R update(@RequestHeader String token,UserAuthVo userAuthVo){
+    public R update(@RequestHeader String token, UserAuthVo userAuthVo) {
         Long userId = JwtHelper.getUserId(token);
-        UserInfo userInfo=new UserInfo();
+        UserInfo userInfo = new UserInfo();
         userInfo.setId(userId);
         userInfo.setName(userAuthVo.getName());
         userInfo.setCertificatesType(userAuthVo.getCertificatesType());
@@ -45,16 +45,16 @@ public class UserInfoController {
     }
 
     @PostMapping("/login")
-    public R login(@RequestBody LoginVo loginVo){
-       Map<String,Object> map = userInfoService.login(loginVo);
-       return R.ok().data(map);
+    public R login(@RequestBody LoginVo loginVo) {
+        Map<String, Object> map = userInfoService.login(loginVo);
+        return R.ok().data(map);
     }
 
     @GetMapping("/info")
-    public R getUserInfo(@RequestHeader String token ){
+    public R getUserInfo(@RequestHeader String token) {
         Long userId = JwtHelper.getUserId(token);
         UserInfo byId = userInfoService.getUserInfo(userId);
-        return R.ok().data("user",byId);
+        return R.ok().data("user", byId);
     }
 
 }

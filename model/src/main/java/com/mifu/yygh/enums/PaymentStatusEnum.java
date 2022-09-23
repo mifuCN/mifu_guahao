@@ -6,6 +6,12 @@ public enum PaymentStatusEnum {
     REFUND(-1, "已退款");
 
     private Integer status;
+    private String name;
+
+    PaymentStatusEnum(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 
     public Integer getStatus() {
         return status;
@@ -20,13 +26,6 @@ public enum PaymentStatusEnum {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    private String name;
-
-    PaymentStatusEnum(Integer status, String name) {
-        this.status = status;
         this.name = name;
     }
 

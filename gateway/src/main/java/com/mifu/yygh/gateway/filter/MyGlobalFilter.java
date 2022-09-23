@@ -16,7 +16,7 @@ import java.util.List;
 //@Component
 public class MyGlobalFilter implements GlobalFilter, Ordered {
 
-    private AntPathMatcher antPathMatcher=new AntPathMatcher();
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     //执行过滤功能
     @Override
@@ -25,21 +25,21 @@ public class MyGlobalFilter implements GlobalFilter, Ordered {
         String path = request.getURI().getPath();
 
         //对于登录接口的请求就不要拦截了
-        if(antPathMatcher.match("/admin/user/**",path)){
+        if (antPathMatcher.match("/admin/user/**", path)) {
             return chain.filter(exchange);
-        }else{ //对于非登录接口，验证：必须登录之后才能通过
+        } else { //对于非登录接口，验证：必须登录之后才能通过
 
             List<String> strings = request.getHeaders().get("X-Token");
-            if(strings == null){
+            if (strings == null) {
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.SEE_OTHER);
                 //路由跳转：
-                response.getHeaders().set(HttpHeaders.LOCATION,"http://localhost:9528");
+                response.getHeaders().set(HttpHeaders.LOCATION, "http://localhost:9528");
                 return response.setComplete();//结束请求
 
                 //权限框架：springsecurity
-            }else{ //放行
-                return  chain.filter(exchange);
+            } else { //放行
+                return chain.filter(exchange);
             }
 
         }

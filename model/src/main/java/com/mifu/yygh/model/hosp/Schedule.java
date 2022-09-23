@@ -1,7 +1,7 @@
 package com.mifu.yygh.model.hosp;
 
-import com.mifu.yygh.model.base.BaseMongoEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mifu.yygh.model.base.BaseMongoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

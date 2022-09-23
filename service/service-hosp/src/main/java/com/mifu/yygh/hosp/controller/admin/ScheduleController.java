@@ -20,23 +20,22 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
 
-
     @GetMapping("/{hoscode}/{depcode}/{workdate}")
-    public R detail( @PathVariable String hoscode,
-                     @PathVariable String depcode,
-                     @PathVariable String workdate){
+    public R detail(@PathVariable String hoscode,
+                    @PathVariable String depcode,
+                    @PathVariable String workdate) {
 
-       List<Schedule> scheduleList= scheduleService.detail(hoscode,depcode,workdate);
-       return R.ok().data("list",scheduleList);
+        List<Schedule> scheduleList = scheduleService.detail(hoscode, depcode, workdate);
+        return R.ok().data("list", scheduleList);
     }
 
     @GetMapping("/{pageNum}/{pageSize}/{hoscode}/{depcode}")
     public R page(@PathVariable Integer pageNum,
                   @PathVariable Integer pageSize,
                   @PathVariable String hoscode,
-                  @PathVariable String depcode){
+                  @PathVariable String depcode) {
 
-        Map<String,Object> map=scheduleService.page(pageNum,pageSize,hoscode,depcode);
+        Map<String, Object> map = scheduleService.page(pageNum, pageSize, hoscode, depcode);
         return R.ok().data(map);
     }
 

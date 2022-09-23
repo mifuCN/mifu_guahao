@@ -19,55 +19,57 @@ public class RepositoryTest {
 
 
     @Test
-    public void testSelfDefinitionMethod(){
-        List<Actor> actors = actorRepository.findByActorNameLikeAndGender("龙",true);
+    public void testSelfDefinitionMethod() {
+        List<Actor> actors = actorRepository.findByActorNameLikeAndGender("龙", true);
         for (Actor actor : actors) {
             System.out.println(actor);
         }
     }
 
     @Test
-    public void testPage(){
-        int pageNum=0;//0表示第一页
-        int pagesize=3;
-        Actor actor=new Actor();
+    public void testPage() {
+        int pageNum = 0;//0表示第一页
+        int pagesize = 3;
+        Actor actor = new Actor();
         actor.setAge(44);
 
-        Example<Actor> example=Example.of(actor);
-        Pageable pageable= PageRequest.of(pageNum,pagesize);
+        Example<Actor> example = Example.of(actor);
+        Pageable pageable = PageRequest.of(pageNum, pagesize);
         Page<Actor> page = actorRepository.findAll(example, pageable);
-        System.out.println("总记录数："+page.getTotalElements());
-        System.out.println("总页数："+page.getTotalPages());
+        System.out.println("总记录数：" + page.getTotalElements());
+        System.out.println("总页数：" + page.getTotalPages());
         System.out.println("当前页列表数据：");
         for (Actor actor1 : page.getContent()) {
             System.out.println(actor1);
         }
     }
+
     @Test
-    public void testQuery(){
+    public void testQuery() {
 //        Actor actor = actorRepository.findById("30").get();
 //        System.out.println(actor);
 
-        Actor actor=new Actor();
+        Actor actor = new Actor();
         //actor.setGender(true);
         actor.setActorName("富");
 
         ExampleMatcher matcher = ExampleMatcher.matching() //构建对象
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) //改变默认字符串匹配方式：模糊查询
-               // .withMatcher("actorName", ExampleMatcher.GenericPropertyMatchers.startsWith())
+                // .withMatcher("actorName", ExampleMatcher.GenericPropertyMatchers.startsWith())
                 .withIgnoreCase(true); //改变默认大小写忽略方式：忽略大小写
 
-        Example<Actor> example=Example.of(actor,matcher);
+        Example<Actor> example = Example.of(actor, matcher);
 
         List<Actor> all = actorRepository.findAll(example);
         for (Actor actor1 : all) {
             System.out.println(actor1);
         }
     }
+
     //修改
     @Test
-    public void testUpdate(){
-        Actor actor=new Actor();
+    public void testUpdate() {
+        Actor actor = new Actor();
         actor.setId("31");
         actor.setActorName("1刘德华");
         actorRepository.save(actor);
@@ -75,24 +77,24 @@ public class RepositoryTest {
 
     //删除
     @Test
-    public void testDelete(){
-       // actorRepository.deleteById("628dd85dfd93786a5ea4359a");
+    public void testDelete() {
+        // actorRepository.deleteById("628dd85dfd93786a5ea4359a");
         Actor actor = new Actor();
         actor.setId("32");
         actorRepository.delete(actor);
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         //actorRepository.insert(new Actor("16","振忠1",true,new Date()));
         //actorRepository.save(new Actor("17","文博1",true,new Date()));
-        List<Actor> actorList=new ArrayList<Actor>();
+        List<Actor> actorList = new ArrayList<Actor>();
 //        actorList.add(new Actor("30","周润发",true,new Date()));
 //        actorList.add(new Actor("31","周星驰",true,new Date()));
 //        actorList.add(new Actor("32","李连杰",true,new Date()));
-        actorList.add(new Actor("40","嘿嘿", true,new Date(),44));
+        actorList.add(new Actor("40", "嘿嘿", true, new Date(), 44));
 
-       // actorRepository.insert(actorList);
+        // actorRepository.insert(actorList);
         actorRepository.saveAll(actorList);
     }
 }

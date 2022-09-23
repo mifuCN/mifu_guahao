@@ -1,6 +1,9 @@
 package com.mifu.yygh.user.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mifu.yygh.common.exception.YyghException;
 import com.mifu.yygh.common.utils.JwtHelper;
 import com.mifu.yygh.enums.AuthStatusEnum;
@@ -12,9 +15,6 @@ import com.mifu.yygh.user.service.PatientService;
 import com.mifu.yygh.user.service.UserInfoService;
 import com.mifu.yygh.vo.user.LoginVo;
 import com.mifu.yygh.vo.user.UserInfoQueryVo;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -43,44 +43,44 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String phone = loginVo.getPhone();
         String code = loginVo.getCode();
         //2.对接收到的手机号和验证码做一个非空验证
-        if(StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)){
-            throw new YyghException(20001,"手机号或者验证码有误");
+        if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)) {
+            throw new YyghException(20001, "手机号或者验证码有误");
         }
         //3.对验证码做进一步确认：
-        String redisCode = (String)redisTemplate.opsForValue().get(phone);
-        if(StringUtils.isEmpty(redisCode) || !redisCode.equals(code)){
-            throw new YyghException(20001,"验证码有误");
+        String redisCode = (String) redisTemplate.opsForValue().get(phone);
+        if (StringUtils.isEmpty(redisCode) || !redisCode.equals(code)) {
+            throw new YyghException(20001, "验证码有误");
         }
 
         String openid = loginVo.getOpenid();
-        UserInfo userInfo=null;
-        if(StringUtils.isEmpty(openid)){
+        UserInfo userInfo = null;
+        if (StringUtils.isEmpty(openid)) {
             //4.是否手机号首次登录,如果是首次登录，就先往表中注册一下当前用户信息
-            QueryWrapper<UserInfo> queryWrapper=new QueryWrapper<UserInfo>();
-            queryWrapper.eq("phone",phone);
-            userInfo= baseMapper.selectOne(queryWrapper);
-            if(userInfo == null){
-                userInfo=new UserInfo();
+            QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<UserInfo>();
+            queryWrapper.eq("phone", phone);
+            userInfo = baseMapper.selectOne(queryWrapper);
+            if (userInfo == null) {
+                userInfo = new UserInfo();
                 userInfo.setPhone(phone);
                 baseMapper.insert(userInfo);
                 userInfo.setStatus(1);
             }
 
-        }else{//微信强制绑定手机号:首次使用微信登录并且强制绑定手机号的时候会走这个else
+        } else {//微信强制绑定手机号:首次使用微信登录并且强制绑定手机号的时候会走这个else
 
-            QueryWrapper<UserInfo> queryWrapper=new QueryWrapper<UserInfo>();
-            queryWrapper.eq("openid",openid);
+            QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<UserInfo>();
+            queryWrapper.eq("openid", openid);
             userInfo = baseMapper.selectOne(queryWrapper);
 
-            QueryWrapper<UserInfo> phoneWrapper=new QueryWrapper<UserInfo>();
-            phoneWrapper.eq("phone",phone);
-            UserInfo userInfo2= baseMapper.selectOne(phoneWrapper);
+            QueryWrapper<UserInfo> phoneWrapper = new QueryWrapper<UserInfo>();
+            phoneWrapper.eq("phone", phone);
+            UserInfo userInfo2 = baseMapper.selectOne(phoneWrapper);
 
-            if(userInfo2== null){
+            if (userInfo2 == null) {
                 userInfo.setPhone(phone);
                 //userInfo.setStatus(1);
                 baseMapper.updateById(userInfo);
-            }else{
+            } else {
                 userInfo2.setOpenid(userInfo.getOpenid());
                 userInfo2.setNickName(userInfo.getNickName());
                 baseMapper.updateById(userInfo2);
@@ -90,17 +90,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
 
         //5.验证用户的status
-        if(userInfo.getStatus() == 0){
-            throw new YyghException(20001,"用户锁定中");
+        if (userInfo.getStatus() == 0) {
+            throw new YyghException(20001, "用户锁定中");
         }
 
         //6.返回用户信息
         Map<String, Object> map = new HashMap<>();
         String name = userInfo.getName();
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getNickName();
         }
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getPhone();
         }
         map.put("name", name);
@@ -108,7 +108,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         String token = JwtHelper.createToken(userInfo.getId(), name);
 
-        map.put("token",token);
+        map.put("token", token);
         return map;
     }
 
@@ -122,27 +122,27 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public Page<UserInfo> getUserInfoPage(Integer pageNum, Integer limit, UserInfoQueryVo userInfoQueryVo) {
 
-        Page<UserInfo> page=new Page<UserInfo>(pageNum,limit);
-        QueryWrapper<UserInfo> queryWrapper=new QueryWrapper<UserInfo>();
+        Page<UserInfo> page = new Page<UserInfo>(pageNum, limit);
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<UserInfo>();
 
 
-        if(!StringUtils.isEmpty(userInfoQueryVo.getKeyword())){
-            queryWrapper.like("name",userInfoQueryVo.getKeyword()).or().eq("phone",userInfoQueryVo.getKeyword());
+        if (!StringUtils.isEmpty(userInfoQueryVo.getKeyword())) {
+            queryWrapper.like("name", userInfoQueryVo.getKeyword()).or().eq("phone", userInfoQueryVo.getKeyword());
         }
-        if(!StringUtils.isEmpty(userInfoQueryVo.getStatus())){
-            queryWrapper.eq("status",userInfoQueryVo.getStatus());
+        if (!StringUtils.isEmpty(userInfoQueryVo.getStatus())) {
+            queryWrapper.eq("status", userInfoQueryVo.getStatus());
         }
-        if(!StringUtils.isEmpty(userInfoQueryVo.getAuthStatus())){
-            queryWrapper.eq("auth_status",userInfoQueryVo.getAuthStatus());
+        if (!StringUtils.isEmpty(userInfoQueryVo.getAuthStatus())) {
+            queryWrapper.eq("auth_status", userInfoQueryVo.getAuthStatus());
         }
-        if(!StringUtils.isEmpty(userInfoQueryVo.getCreateTimeBegin())){
-            queryWrapper.gt("create_time",userInfoQueryVo.getCreateTimeBegin());
+        if (!StringUtils.isEmpty(userInfoQueryVo.getCreateTimeBegin())) {
+            queryWrapper.gt("create_time", userInfoQueryVo.getCreateTimeBegin());
         }
-        if(!StringUtils.isEmpty(userInfoQueryVo.getCreateTimeEnd())){
-            queryWrapper.lt("create_time",userInfoQueryVo.getCreateTimeEnd());
+        if (!StringUtils.isEmpty(userInfoQueryVo.getCreateTimeEnd())) {
+            queryWrapper.lt("create_time", userInfoQueryVo.getCreateTimeEnd());
         }
         Page<UserInfo> page1 = baseMapper.selectPage(page, queryWrapper);
-        page1.getRecords().stream().forEach(item->{
+        page1.getRecords().stream().forEach(item -> {
             this.packageUserInfo(item);
         });
 
@@ -151,10 +151,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public void updateStatus(Long id, Integer status) {
-        if(status == 0 || status == 1){
-           // UserInfo userInfo = baseMapper.selectById(id);
+        if (status == 0 || status == 1) {
+            // UserInfo userInfo = baseMapper.selectById(id);
             //mp:支持直接修改的，
-            UserInfo userInfo=new UserInfo();
+            UserInfo userInfo = new UserInfo();
             userInfo.setId(id);
             userInfo.setStatus(status);
             baseMapper.updateById(userInfo);
@@ -165,13 +165,13 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public Map<String, Object> detail(Long id) {
         UserInfo userInfo = baseMapper.selectById(id);
 
-        QueryWrapper<Patient> queryWrapper=new QueryWrapper<Patient>();
-        queryWrapper.eq("user_id",id);
-        List<Patient> patients =patientService.selectList(queryWrapper);
+        QueryWrapper<Patient> queryWrapper = new QueryWrapper<Patient>();
+        queryWrapper.eq("user_id", id);
+        List<Patient> patients = patientService.selectList(queryWrapper);
 
-        Map<String, Object> map = new HashMap<String,Object>(2);
-        map.put("userInfo",userInfo);
-        map.put("patients",patients);
+        Map<String, Object> map = new HashMap<String, Object>(2);
+        map.put("userInfo", userInfo);
+        map.put("patients", patients);
         return map;
     }
 
@@ -179,6 +179,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         Integer authStatus = item.getAuthStatus();
         Integer status = item.getStatus();
         item.getParam().put("statusString", StatusEnum.getStatusStringByStatus(status));
-        item.getParam().put("authStatusString",AuthStatusEnum.getStatusNameByStatus(authStatus));
+        item.getParam().put("authStatusString", AuthStatusEnum.getStatusNameByStatus(authStatus));
     }
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class DepartmentServiceImpl  implements DepartmentService {
+public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -32,14 +32,14 @@ public class DepartmentServiceImpl  implements DepartmentService {
         String hoscode = department.getHoscode();
         String depcode = department.getDepcode();
 
-        Department platformDepartment= departmentRepository.findByHoscodeAndDepcode(hoscode,depcode);
+        Department platformDepartment = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
 
-        if(platformDepartment == null){ //如果mongo中没有该科室信息，做添加操作
+        if (platformDepartment == null) { //如果mongo中没有该科室信息，做添加操作
             department.setCreateTime(new Date());
             department.setUpdateTime(new Date());
             department.setIsDeleted(0);
             departmentRepository.save(department);
-        }else{ //如果mongo中有该科室信息，做修改操作
+        } else { //如果mongo中有该科室信息，做修改操作
 
             department.setCreateTime(platformDepartment.getCreateTime());
             department.setUpdateTime(new Date());
@@ -53,29 +53,29 @@ public class DepartmentServiceImpl  implements DepartmentService {
 
     @Override
     public Page<Department> getDepartmentPage(Map<String, Object> stringObjectMap) {
-        Integer page= Integer.parseInt((String)stringObjectMap.get("page"));
-        Integer limit = Integer.parseInt((String)stringObjectMap.get("limit"));
+        Integer page = Integer.parseInt((String) stringObjectMap.get("page"));
+        Integer limit = Integer.parseInt((String) stringObjectMap.get("limit"));
 
-        String hoscode = (String)stringObjectMap.get("hoscode");
+        String hoscode = (String) stringObjectMap.get("hoscode");
 
-        Department department=new Department();
+        Department department = new Department();
         department.setHoscode(hoscode);
 
         Example<Department> example = Example.of(department);
 
-        Pageable pageable= PageRequest.of(page-1,limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<Department> all = departmentRepository.findAll(example, pageable);
         return all;
     }
 
     @Override
     public void remove(Map<String, Object> stringObjectMap) {
-        String hoscode=(String)stringObjectMap.get("hoscode");
-        String depcode=(String)stringObjectMap.get("depcode");
+        String hoscode = (String) stringObjectMap.get("hoscode");
+        String depcode = (String) stringObjectMap.get("depcode");
 
         Department department = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
 
-        if(department != null){
+        if (department != null) {
             departmentRepository.deleteById(department.getId());
         }
 
@@ -83,9 +83,9 @@ public class DepartmentServiceImpl  implements DepartmentService {
 
     @Override
     public List<DepartmentVo> getDepartmentList(String hoscode) {
-        Department department=new Department();
+        Department department = new Department();
         department.setHoscode(hoscode);
-        Example<Department> example=Example.of(department);
+        Example<Department> example = Example.of(department);
         List<Department> all = departmentRepository.findAll(example);
 
         //map的key:就是当前科室所属大科室的编号: 001
@@ -93,20 +93,20 @@ public class DepartmentServiceImpl  implements DepartmentService {
         Map<String, List<Department>> collect = all.stream().collect(Collectors.groupingBy(Department::getBigcode));
 
 
-        List<DepartmentVo> bigDepartmentList= new ArrayList<DepartmentVo>();
+        List<DepartmentVo> bigDepartmentList = new ArrayList<DepartmentVo>();
 
         for (Map.Entry<String, List<Department>> entry : collect.entrySet()) {
-            DepartmentVo bigDepartmentVo=new DepartmentVo();
+            DepartmentVo bigDepartmentVo = new DepartmentVo();
 
             //1.大科室编号
             String bigcode = entry.getKey();
             //2.当前大科室底下所有的子科室列表
             List<Department> value = entry.getValue();
 
-            List<DepartmentVo> childDepartmentVoList= new ArrayList<DepartmentVo>();
+            List<DepartmentVo> childDepartmentVoList = new ArrayList<DepartmentVo>();
 
             for (Department childDepartment : value) {
-                DepartmentVo childDepartmentVo=new DepartmentVo();
+                DepartmentVo childDepartmentVo = new DepartmentVo();
                 //1.当前子科室的编号
                 String depcode = childDepartment.getDepcode();
                 //2.当前子科室的名称
@@ -131,7 +131,7 @@ public class DepartmentServiceImpl  implements DepartmentService {
     public String getDepName(String hoscode, String depcode) {
 
         Department department = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
-        if(department != null){
+        if (department != null) {
             return department.getDepname();
         }
         return "";
@@ -139,6 +139,6 @@ public class DepartmentServiceImpl  implements DepartmentService {
 
     @Override
     public Department getDepartment(String hoscode, String depcode) {
-        return  departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
+        return departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
     }
 }

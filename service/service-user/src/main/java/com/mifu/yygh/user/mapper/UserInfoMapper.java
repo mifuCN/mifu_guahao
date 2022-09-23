@@ -1,8 +1,8 @@
 package com.mifu.yygh.user.mapper;
 
 
-import com.mifu.yygh.model.user.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mifu.yygh.model.user.UserInfo;
 
 /**
  * <p>

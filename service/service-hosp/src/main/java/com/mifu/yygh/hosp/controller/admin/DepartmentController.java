@@ -19,10 +19,9 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
 
-
     @GetMapping("/{hoscode}")
-    public R getDepartmentList(@PathVariable String hoscode){
-        List<DepartmentVo> list=departmentService.getDepartmentList(hoscode);
-        return R.ok().data("list",list);
+    public R getDepartmentList(@PathVariable String hoscode) {
+        List<DepartmentVo> list = departmentService.getDepartmentList(hoscode);
+        return R.ok().data("list", list);
     }
 }

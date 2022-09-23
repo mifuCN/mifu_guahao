@@ -25,15 +25,16 @@ public class PatientController {
 
     //增
     @PostMapping("/save")
-    public R save(@RequestBody Patient patient,@RequestHeader String token){
+    public R save(@RequestBody Patient patient, @RequestHeader String token) {
         Long userId = JwtHelper.getUserId(token);
         patient.setUserId(userId);
         patientService.save(patient);
         return R.ok();
     }
+
     //删
     @DeleteMapping("/delete/{id}")
-    public R delete(@PathVariable Long id){
+    public R delete(@PathVariable Long id) {
         patientService.removeById(id);
         return R.ok();
     }
@@ -41,35 +42,32 @@ public class PatientController {
 
     //1.修改之回显数据
     @GetMapping("/detail/{id}")
-    public R detail(@PathVariable Long id){
+    public R detail(@PathVariable Long id) {
 
         Patient patient = patientService.detail(id);
-        return R.ok().data("patient",patient);
+        return R.ok().data("patient", patient);
     }
+
     //2.修改之更新数据
     @PutMapping("/update")
-    public R update(@RequestBody Patient patient){
-       patientService.updateById(patient);
-       return R.ok();
+    public R update(@RequestBody Patient patient) {
+        patientService.updateById(patient);
+        return R.ok();
     }
     //查
 
     @GetMapping("/all")
-    public R findAll(@RequestHeader String token){
+    public R findAll(@RequestHeader String token) {
 
         List<Patient> list = patientService.findAll(token);
 
-        return R.ok().data("list",list);
+        return R.ok().data("list", list);
     }
-
-
-
-
 
 
     //根据就诊人id获取就诊人信息
     @GetMapping("/{patientId}")
-    public Patient getPatientById(@PathVariable("patientId") Long patientId){
+    public Patient getPatientById(@PathVariable("patientId") Long patientId) {
         return patientService.getById(patientId);
     }
 }

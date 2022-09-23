@@ -1,8 +1,8 @@
 package com.mifu.yygh.cmn.service;
 
 
-import com.mifu.yygh.model.cmn.Dict;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mifu.yygh.model.cmn.Dict;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,5 +24,5 @@ public interface DictService extends IService<Dict> {
 
     String getNameByValue(Long value);
 
-    String getNameByDictCodeAndValue(String dictCode,Long value);
+    String getNameByDictCodeAndValue(String dictCode, Long value);
 }

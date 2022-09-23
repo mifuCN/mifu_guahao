@@ -26,7 +26,6 @@ public class DictController {
     private DictService dictService;
 
 
-
     @PostMapping("/upload")
     public R upload(MultipartFile file) throws IOException {
         dictService.upload(file);
@@ -39,22 +38,22 @@ public class DictController {
     }
 
     @GetMapping("/childList/{pid}")
-    public R getChildListByPid(@PathVariable Long pid){
-        List<Dict> list=dictService.getChildListByPid(pid);
-        return R.ok().data("items",list);
+    public R getChildListByPid(@PathVariable Long pid) {
+        List<Dict> list = dictService.getChildListByPid(pid);
+        return R.ok().data("items", list);
     }
 
     //根据医院所属的省市区编号获取省市区文字
     @GetMapping("/{value}")
-    public String getNameByValue(@PathVariable("value") Long value){
-       return dictService.getNameByValue(value);
+    public String getNameByValue(@PathVariable("value") Long value) {
+        return dictService.getNameByValue(value);
     }
 
     //根据医院的等级编号获取医院等级信息
     @GetMapping("/{dictCode}/{value}")
     public String getNameByDictCodeAndValue(@PathVariable("dictCode") String dictCode,
-                                            @PathVariable("value") Long value){
-      return dictService.getNameByDictCodeAndValue(dictCode,value);
+                                            @PathVariable("value") Long value) {
+        return dictService.getNameByDictCodeAndValue(dictCode, value);
     }
 
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "weixin")
 @Data
- //@Component+@Value
+//@Component+@Value
 //@Component+@ConfigurationProperties(prefix = "weixin")
 //+@ConfigurationProperties(prefix = "weixin")+@EnableConfigurationProperties(value = WeixinProperties.class)
 public class WeixinProperties {

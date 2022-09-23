@@ -16,30 +16,27 @@ public class HospitalController {
     private HospitalService hospitalService;
 
 
-
     //根据医院id医院的所有信息
     @GetMapping("/detail/{id}")
-    public R detail(@PathVariable String id){
-        Hospital hospital= hospitalService.detail(id);
-        return R.ok().data("hospital",hospital);
+    public R detail(@PathVariable String id) {
+        Hospital hospital = hospitalService.detail(id);
+        return R.ok().data("hospital", hospital);
     }
 
     //根据医院id修改医院状态
     @PutMapping("/{id}/{status}")
-    public R updateStatus(@PathVariable String id,@PathVariable Integer status){
-        hospitalService.updateStatus(id,status);
+    public R updateStatus(@PathVariable String id, @PathVariable Integer status) {
+        hospitalService.updateStatus(id, status);
         return R.ok();
     }
 
     @GetMapping("/{pageNum}/{pageSize}")
-    public R getHospitalPage(@PathVariable Integer pageNum,@PathVariable Integer pageSize, HospitalQueryVo hospitalQueryVo){
+    public R getHospitalPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize, HospitalQueryVo hospitalQueryVo) {
 
-        Page<Hospital> hospitalPage= hospitalService.getHospitalPage(pageNum,pageSize,hospitalQueryVo);
+        Page<Hospital> hospitalPage = hospitalService.getHospitalPage(pageNum, pageSize, hospitalQueryVo);
 
-        return R.ok().data("total",hospitalPage.getTotalElements()).data("list",hospitalPage.getContent());
+        return R.ok().data("total", hospitalPage.getTotalElements()).data("list", hospitalPage.getContent());
     }
-
-
 
 
 }

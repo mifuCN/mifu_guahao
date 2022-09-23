@@ -1,13 +1,13 @@
 package com.mifu.yygh.user.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mifu.yygh.client.DictFeignClient;
 import com.mifu.yygh.common.utils.JwtHelper;
 import com.mifu.yygh.model.user.Patient;
 import com.mifu.yygh.user.mapper.PatientMapper;
 import com.mifu.yygh.user.service.PatientService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,6 @@ import java.util.List;
 public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> implements PatientService {
 
 
-
     @Autowired
     private DictFeignClient dictFeignClient;
 
@@ -31,11 +30,11 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
 
         Long userId = JwtHelper.getUserId(token);
 
-        QueryWrapper<Patient> queryWrapper=new QueryWrapper<Patient>();
-        queryWrapper.eq("user_id",userId);
+        QueryWrapper<Patient> queryWrapper = new QueryWrapper<Patient>();
+        queryWrapper.eq("user_id", userId);
 
         List<Patient> patients = baseMapper.selectList(queryWrapper);
-        patients.stream().forEach(item->{
+        patients.stream().forEach(item -> {
             this.packagePatient(item);
         });
 
@@ -52,21 +51,21 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
     @Override
     public List<Patient> selectList(QueryWrapper<Patient> queryWrapper) {
         List<Patient> patients = baseMapper.selectList(queryWrapper);
-        patients.stream().forEach(item->{
+        patients.stream().forEach(item -> {
             this.packagePatient(item);
         });
         return patients;
     }
 
     private void packagePatient(Patient item) {
-        item.getParam().put("certificatesTypeString",dictFeignClient.getNameByValue(Long.parseLong(item.getCertificatesType())));
+        item.getParam().put("certificatesTypeString", dictFeignClient.getNameByValue(Long.parseLong(item.getCertificatesType())));
         String provinceString = dictFeignClient.getNameByValue(Long.parseLong(item.getProvinceCode()));
         String cityString = dictFeignClient.getNameByValue(Long.parseLong(item.getCityCode()));
         String disctrictString = dictFeignClient.getNameByValue(Long.parseLong(item.getDistrictCode()));
-        item.getParam().put("provinceString",provinceString);
-        item.getParam().put("cityString",cityString);
-        item.getParam().put("districtString",disctrictString);
+        item.getParam().put("provinceString", provinceString);
+        item.getParam().put("cityString", cityString);
+        item.getParam().put("districtString", disctrictString);
 
-        item.getParam().put("fullAddress",provinceString+cityString+disctrictString+item.getAddress());
+        item.getParam().put("fullAddress", provinceString + cityString + disctrictString + item.getAddress());
     }
 }

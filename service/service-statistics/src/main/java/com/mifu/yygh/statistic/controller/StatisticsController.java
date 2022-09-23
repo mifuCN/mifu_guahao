@@ -19,10 +19,9 @@ public class StatisticsController {
     private StatisticsService statisticsService;
 
 
-
     @GetMapping("/countByDate")
-    public R statistics(OrderCountQueryVo orderCountQueryVo){
-        Map<String,Object> map=statisticsService.statistics(orderCountQueryVo);
+    public R statistics(OrderCountQueryVo orderCountQueryVo) {
+        Map<String, Object> map = statisticsService.statistics(orderCountQueryVo);
         return R.ok().data(map);
     }
 }

@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitService {
-   @Autowired
+    @Autowired
     private RabbitTemplate rabbitTemplate;
 
-   //rabbirmq: String.getBytes()
+    //rabbirmq: String.getBytes()
 
     //{
     //  key:value1,
 
     // }
-   public boolean sendMessage(String exchange,String routingkey,Object message){
-       rabbitTemplate.convertAndSend(exchange,routingkey,message);
-       return true;
-   }
+    public boolean sendMessage(String exchange, String routingkey, Object message) {
+        rabbitTemplate.convertAndSend(exchange, routingkey, message);
+        return true;
+    }
 }

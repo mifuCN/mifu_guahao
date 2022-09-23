@@ -15,6 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class ServiceHospMainStarter {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceHospMainStarter.class,args);
+        SpringApplication.run(ServiceHospMainStarter.class, args);
     }
 }

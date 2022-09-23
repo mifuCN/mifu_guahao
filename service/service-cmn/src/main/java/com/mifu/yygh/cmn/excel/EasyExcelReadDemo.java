@@ -12,7 +12,7 @@ public class EasyExcelReadDemo {
         ReadSheet sheet1 = EasyExcel.readSheet(0).head(Student.class).registerReadListener(new StudentListener()).build();
         ReadSheet sheet2 = EasyExcel.readSheet(1).head(Student.class).registerReadListener(new StudentListener()).build();
 
-        excelReader.read(sheet1,sheet2);
+        excelReader.read(sheet1, sheet2);
 
         excelReader.finish();
 

@@ -15,13 +15,12 @@ public class SmsController {
     private SmsService smsService;
 
 
-
     @PostMapping("/send/{phone}")
-    public R sendCode(@PathVariable String phone){
-        boolean flag=smsService.sendCode(phone);
-        if(flag){
+    public R sendCode(@PathVariable String phone) {
+        boolean flag = smsService.sendCode(phone);
+        if (flag) {
             return R.ok();
-        }else{
+        } else {
             return R.error();
         }
     }

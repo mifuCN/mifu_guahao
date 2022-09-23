@@ -7,7 +7,7 @@ public interface WeiPayService {
 
     Map<String, String> queryPayStatus(Long orderId);
 
-    void paySuccess(Long orderId, Map<String,String> map);
+    void paySuccess(Long orderId, Map<String, String> map);
 
     boolean refund(Long orderId);
 }

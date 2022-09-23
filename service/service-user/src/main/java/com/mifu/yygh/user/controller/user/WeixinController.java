@@ -1,6 +1,7 @@
 package com.mifu.yygh.user.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mifu.yygh.common.exception.YyghException;
 import com.mifu.yygh.common.result.R;
 import com.mifu.yygh.common.utils.JwtHelper;
@@ -8,11 +9,12 @@ import com.mifu.yygh.model.user.UserInfo;
 import com.mifu.yygh.user.prop.WeixinProperties;
 import com.mifu.yygh.user.service.UserInfoService;
 import com.mifu.yygh.user.utils.HttpClientUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -34,20 +36,19 @@ public class WeixinController {
     public R getWeixinLoginParam() throws UnsupportedEncodingException {
         String url = URLEncoder.encode(weixinProperties.getRedirecturl(), "UTF-8");
 
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("appid",weixinProperties.getAppid());
-        map.put("scope","snsapi_login");
-        map.put("redirecturl",url);
-        map.put("state",System.currentTimeMillis()+"");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("appid", weixinProperties.getAppid());
+        map.put("scope", "snsapi_login");
+        map.put("redirecturl", url);
+        map.put("state", System.currentTimeMillis() + "");
         return R.ok().data(map);
     }
 
 
-
     @GetMapping("/callback")
-    public String callback(String code,String state) throws Exception {
+    public String callback(String code, String state) throws Exception {
 
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         StringBuilder append = stringBuilder.append("https://api.weixin.qq.com/sns/oauth2/access_token")
                 .append("?appid=%s")
                 .append("&secret=%s")
@@ -64,13 +65,13 @@ public class WeixinController {
         //openid是微信扫描用户在微信服务器的唯一标识符
         String openid = jsonObject.getString("openid");
 
-        QueryWrapper<UserInfo> queryWrapper=new QueryWrapper<UserInfo>();
-        queryWrapper.eq("openid",openid);
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<UserInfo>();
+        queryWrapper.eq("openid", openid);
 
         UserInfo userInfo = userInfoService.getOne(queryWrapper);
-        if(userInfo == null){ //首次使用微信登录,把用户的微信信息在表中保存一下
+        if (userInfo == null) { //首次使用微信登录,把用户的微信信息在表中保存一下
             //给微信服务器发送请求获取当前用户信息
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             StringBuilder append1 = sb.append("https://api.weixin.qq.com/sns/userinfo")
                     .append("?access_token=%s")
@@ -82,7 +83,7 @@ public class WeixinController {
             JSONObject jsonObject1 = JSONObject.parseObject(s);
             String nickname = jsonObject1.getString("nickname");
 
-            userInfo=new UserInfo();
+            userInfo = new UserInfo();
             userInfo.setOpenid(openid);
             userInfo.setNickName(nickname);
             userInfo.setStatus(1);
@@ -91,32 +92,32 @@ public class WeixinController {
 
         //代码
         //5.验证用户的status
-        if(userInfo.getStatus() == 0){
-            throw new YyghException(20001,"用户锁定中");
+        if (userInfo.getStatus() == 0) {
+            throw new YyghException(20001, "用户锁定中");
         }
 
         //6.返回用户信息
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         //检查这个用户手机号是否为空:为空，说明这是首次使用微信登录,强制绑定手机号
-        if(StringUtils.isEmpty(userInfo.getPhone())){
-            map.put("openid",openid);
-        }else{//检查这个用户手机号是否为空:不为空，说明这不是首次微信登录
-            map.put("openid","");
+        if (StringUtils.isEmpty(userInfo.getPhone())) {
+            map.put("openid", openid);
+        } else {//检查这个用户手机号是否为空:不为空，说明这不是首次微信登录
+            map.put("openid", "");
         }
         String name = userInfo.getName();
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getNickName();
         }
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             name = userInfo.getPhone();
         }
         map.put("name", name);
 
         String token = JwtHelper.createToken(userInfo.getId(), name);
-        map.put("token",token);
+        map.put("token", token);
 
         //跳转到前端页面
-        return "redirect:http://localhost:3000/weixin/callback?token="+map.get("token")+ "&openid="+map.get("openid")+"&name="+URLEncoder.encode(map.get("name"),"utf-8");
+        return "redirect:http://localhost:3000/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" + URLEncoder.encode(map.get("name"), "utf-8");
     }
 }

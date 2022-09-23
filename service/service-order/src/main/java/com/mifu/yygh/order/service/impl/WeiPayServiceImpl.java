@@ -1,6 +1,9 @@
 package com.mifu.yygh.order.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.mifu.yygh.enums.OrderStatusEnum;
 import com.mifu.yygh.enums.PaymentStatusEnum;
 import com.mifu.yygh.enums.PaymentTypeEnum;
@@ -14,9 +17,6 @@ import com.mifu.yygh.order.service.PaymentService;
 import com.mifu.yygh.order.service.RefundInfoService;
 import com.mifu.yygh.order.service.WeiPayService;
 import com.mifu.yygh.order.utils.HttpClient;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.github.wxpay.sdk.WXPayUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class WeiPayServiceImpl  implements WeiPayService {
+public class WeiPayServiceImpl implements WeiPayService {
 
     @Autowired
     private OrderInfoService orderInfoService;
@@ -37,6 +37,7 @@ public class WeiPayServiceImpl  implements WeiPayService {
     private WeiPayProperties weiPayProperties;
     @Autowired
     private RefundInfoService refundInfoService;
+
     @Override
     public String createNative(Long orderId) {
         //1.根据订单id去数据库中获取订单信息
@@ -44,28 +45,27 @@ public class WeiPayServiceImpl  implements WeiPayService {
         //2.保存支付记录信息
         paymentService.savePaymentInfo(orderInfo, PaymentTypeEnum.WEIXIN.getStatus());
         //3.请求微信服务器获取微信支付的url地址
-        HttpClient httpClient=new HttpClient("https://api.mch.weixin.qq.com/pay/unifiedorder");
-        Map<String,String> paramMap=new HashMap<String,String>();
+        HttpClient httpClient = new HttpClient("https://api.mch.weixin.qq.com/pay/unifiedorder");
+        Map<String, String> paramMap = new HashMap<String, String>();
 
-        paramMap.put("appid",weiPayProperties.getAppid());
-        paramMap.put("mch_id",weiPayProperties.getPartner());
-        paramMap.put("nonce_str",WXPayUtil.generateNonceStr());
+        paramMap.put("appid", weiPayProperties.getAppid());
+        paramMap.put("mch_id", weiPayProperties.getPartner());
+        paramMap.put("nonce_str", WXPayUtil.generateNonceStr());
 
         Date reserveDate = orderInfo.getReserveDate();
         String reserveDateString = new DateTime(reserveDate).toString("yyyy/MM/dd");
-        String body = reserveDateString + "就诊"+ orderInfo.getDepname();
+        String body = reserveDateString + "就诊" + orderInfo.getDepname();
 
-        paramMap.put("body",body);
-        paramMap.put("out_trade_no",orderInfo.getOutTradeNo());
-        paramMap.put("total_fee","1");
+        paramMap.put("body", body);
+        paramMap.put("out_trade_no", orderInfo.getOutTradeNo());
+        paramMap.put("total_fee", "1");
 
-        paramMap.put("spbill_create_ip","127.0.0.1");
-        paramMap.put("notify_url","http://guli.shop/api/order/weixinPay/weixinNotify");
-        paramMap.put("trade_type","NATIVE");
+        paramMap.put("spbill_create_ip", "127.0.0.1");
+        paramMap.put("notify_url", "http://guli.shop/api/order/weixinPay/weixinNotify");
+        paramMap.put("trade_type", "NATIVE");
 
 
-
-        try{
+        try {
             httpClient.setXmlParam(WXPayUtil.generateSignedXml(paramMap, weiPayProperties.getPartnerkey()));//设置超参数
             httpClient.setHttps(true);//支持https协议
             httpClient.post(); //发送请求
@@ -73,8 +73,8 @@ public class WeiPayServiceImpl  implements WeiPayService {
             String xmlResult = httpClient.getContent();
             Map<String, String> stringStringMap = WXPayUtil.xmlToMap(xmlResult);
             return stringStringMap.get("code_url");
-        }catch (Exception ex){
-              return "";
+        } catch (Exception ex) {
+            return "";
         }
 
     }
@@ -85,15 +85,15 @@ public class WeiPayServiceImpl  implements WeiPayService {
 
         OrderInfo orderInfo = orderInfoService.getById(orderId);
 
-        HttpClient httpClient =new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
-        Map<String,String> map = new HashMap<String,String>();
+        HttpClient httpClient = new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
+        Map<String, String> map = new HashMap<String, String>();
         map.put("appid", weiPayProperties.getAppid());
         map.put("mch_id", weiPayProperties.getPartner());
         map.put("out_trade_no", orderInfo.getOutTradeNo());//商户订单号
-        map.put("nonce_str",WXPayUtil.generateNonceStr());
+        map.put("nonce_str", WXPayUtil.generateNonceStr());
 
 
-        try{
+        try {
             httpClient.setXmlParam(WXPayUtil.generateSignedXml(map, weiPayProperties.getPartnerkey()));
             httpClient.setHttps(true);
             httpClient.post();
@@ -102,25 +102,25 @@ public class WeiPayServiceImpl  implements WeiPayService {
 
             return stringStringMap; //支付
 
-        } catch (Exception ex){
-             return  null;
+        } catch (Exception ex) {
+            return null;
         }
     }
 
     @Transactional
     @Override
-    public void paySuccess(Long orderId, Map<String,String> map) {
+    public void paySuccess(Long orderId, Map<String, String> map) {
         //更新订单表的订单状态
-        OrderInfo orderInfo=new OrderInfo();
+        OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(orderId);
         orderInfo.setOrderStatus(OrderStatusEnum.PAID.getStatus());
         orderInfoService.updateById(orderInfo);
         //更新支付记录表的支付状态
-        UpdateWrapper updateWrapper=new UpdateWrapper();
-        updateWrapper.eq("order_id",orderId);
-        updateWrapper.set("trade_no",map.get("transaction_id")); //微信支付的订单号[微信服务器]
+        UpdateWrapper updateWrapper = new UpdateWrapper();
+        updateWrapper.eq("order_id", orderId);
+        updateWrapper.set("trade_no", map.get("transaction_id")); //微信支付的订单号[微信服务器]
         updateWrapper.set("payment_status", PaymentStatusEnum.PAID.getStatus());
-        updateWrapper.set("callback_time",new Date());
+        updateWrapper.set("callback_time", new Date());
 
         updateWrapper.set("callback_content", JSONObject.toJSONString(map));
         paymentService.update(updateWrapper);
@@ -129,33 +129,33 @@ public class WeiPayServiceImpl  implements WeiPayService {
     @Override
     public boolean refund(Long orderId) {
 
-        QueryWrapper<PaymentInfo> queryWrapper=new QueryWrapper<PaymentInfo>();
-        queryWrapper.eq("order_id",orderId);
+        QueryWrapper<PaymentInfo> queryWrapper = new QueryWrapper<PaymentInfo>();
+        queryWrapper.eq("order_id", orderId);
         PaymentInfo paymentInfo = paymentService.getOne(queryWrapper);
-        RefundInfo refundInfo=refundInfoService.saveRefundInfo(paymentInfo);
+        RefundInfo refundInfo = refundInfoService.saveRefundInfo(paymentInfo);
         //已退款
-        if(refundInfo.getRefundStatus().intValue() == RefundStatusEnum.REFUND.getStatus().intValue()){
+        if (refundInfo.getRefundStatus().intValue() == RefundStatusEnum.REFUND.getStatus().intValue()) {
             return true;
         }
         //执行微信退款
-        HttpClient httpClient=new HttpClient("https://api.mch.weixin.qq.com/secapi/pay/refund");
+        HttpClient httpClient = new HttpClient("https://api.mch.weixin.qq.com/secapi/pay/refund");
 
-        Map<String,String> paramMap = new HashMap<>(8);
+        Map<String, String> paramMap = new HashMap<>(8);
 
-        paramMap.put("appid",weiPayProperties.getAppid());       //公众账号ID
-        paramMap.put("mch_id",weiPayProperties.getPartner());   //商户编号
-        paramMap.put("nonce_str",WXPayUtil.generateNonceStr());
-        paramMap.put("transaction_id",paymentInfo.getTradeNo()); //微信支付订单号
+        paramMap.put("appid", weiPayProperties.getAppid());       //公众账号ID
+        paramMap.put("mch_id", weiPayProperties.getPartner());   //商户编号
+        paramMap.put("nonce_str", WXPayUtil.generateNonceStr());
+        paramMap.put("transaction_id", paymentInfo.getTradeNo()); //微信支付订单号
 
-        paramMap.put("out_trade_no",paymentInfo.getOutTradeNo()); //商户订单编号
-        paramMap.put("out_refund_no","tk"+paymentInfo.getOutTradeNo()); //商户退款单号
+        paramMap.put("out_trade_no", paymentInfo.getOutTradeNo()); //商户订单编号
+        paramMap.put("out_refund_no", "tk" + paymentInfo.getOutTradeNo()); //商户退款单号
         //       paramMap.put("total_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
         //       paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
 
-        paramMap.put("total_fee","1");
-        paramMap.put("refund_fee","1");
+        paramMap.put("total_fee", "1");
+        paramMap.put("refund_fee", "1");
         try {
-            String paramXml = WXPayUtil.generateSignedXml(paramMap,weiPayProperties.getPartnerkey());
+            String paramXml = WXPayUtil.generateSignedXml(paramMap, weiPayProperties.getPartnerkey());
             httpClient.setXmlParam(paramXml);
             httpClient.setHttps(true);
             httpClient.setCert(true); //设置证书支持
@@ -164,7 +164,7 @@ public class WeiPayServiceImpl  implements WeiPayService {
 
             String content = httpClient.getContent();
             Map<String, String> resultMap = WXPayUtil.xmlToMap(content);
-            if("SUCCESS".equals(resultMap.get("result_code"))){ //微信退款成功
+            if ("SUCCESS".equals(resultMap.get("result_code"))) { //微信退款成功
                 refundInfo.setTradeNo(resultMap.get("refund_id"));//微信退款交易号
                 refundInfo.setRefundStatus(RefundStatusEnum.REFUND.getStatus());
                 refundInfo.setCallbackTime(new Date());
@@ -172,9 +172,9 @@ public class WeiPayServiceImpl  implements WeiPayService {
                 refundInfoService.updateById(refundInfo);
                 return true;
             }
-            return  false;
+            return false;
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 

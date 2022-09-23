@@ -1,8 +1,8 @@
 package com.mifu.yygh.cmn.mapper;
 
 
-import com.mifu.yygh.model.cmn.Dict;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mifu.yygh.model.cmn.Dict;
 
 /**
  * <p>

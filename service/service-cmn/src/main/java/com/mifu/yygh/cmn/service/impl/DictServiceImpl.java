@@ -2,13 +2,13 @@ package com.mifu.yygh.cmn.service.impl;
 
 
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mifu.yygh.cmn.listener.DictListener;
 import com.mifu.yygh.cmn.mapper.DictMapper;
 import com.mifu.yygh.cmn.service.DictService;
 import com.mifu.yygh.model.cmn.Dict;
 import com.mifu.yygh.vo.cmn.DictEeVo;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,24 +42,24 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     //,key = "'selectIndexList'+#pid"
-   @Cacheable(value = "abc",key = "'selectIndexList'+#pid")
+    @Cacheable(value = "abc", key = "'selectIndexList'+#pid")
     public List<Dict> getChildListByPid(Long pid) {
-        QueryWrapper<Dict> queryWrapper=new QueryWrapper<Dict>();
-        queryWrapper.eq("parent_id",pid);
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
+        queryWrapper.eq("parent_id", pid);
         List<Dict> dicts = baseMapper.selectList(queryWrapper);
         for (Dict dict : dicts) {
-             dict.setHasChildren(isHasChildren(dict.getId()));
+            dict.setHasChildren(isHasChildren(dict.getId()));
         }
         return dicts;
     }
 
     @Override
     public void download(HttpServletResponse response) throws IOException {
-        List<Dict> list =baseMapper.selectList(null);
+        List<Dict> list = baseMapper.selectList(null);
         List<DictEeVo> dictEeVoList = new ArrayList<DictEeVo>(list.size());
         for (Dict dict : list) {
-            DictEeVo dictEeVo=new DictEeVo();
-            BeanUtils.copyProperties(dict,dictEeVo);//要求源对象dict和目标对象dictEeVo对应的属性名必须相同
+            DictEeVo dictEeVo = new DictEeVo();
+            BeanUtils.copyProperties(dict, dictEeVo);//要求源对象dict和目标对象dictEeVo对应的属性名必须相同
             dictEeVoList.add(dictEeVo);
         }
         //下载：响应头信息
@@ -74,30 +74,30 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     @Override
-    @CacheEvict(value = "abc", allEntries=true)
+    @CacheEvict(value = "abc", allEntries = true)
     public void upload(MultipartFile file) throws IOException {
-        EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(baseMapper)).sheet(0).doRead();
+        EasyExcel.read(file.getInputStream(), DictEeVo.class, new DictListener(baseMapper)).sheet(0).doRead();
     }
 
     @Override
     public String getNameByValue(Long value) {
-        QueryWrapper<Dict> queryWrapper=new QueryWrapper<Dict>();
-        queryWrapper.eq("value",value);
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
+        queryWrapper.eq("value", value);
         Dict dict = baseMapper.selectOne(queryWrapper);
-        if(dict != null){
+        if (dict != null) {
             return dict.getName();
         }
         return null;
     }
 
     @Override
-    public String getNameByDictCodeAndValue(String dictCode,Long value) {
-        QueryWrapper<Dict> queryWrapper=new QueryWrapper<Dict>();
-        queryWrapper.eq("dict_code",dictCode);
+    public String getNameByDictCodeAndValue(String dictCode, Long value) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
+        queryWrapper.eq("dict_code", dictCode);
         Dict dict = baseMapper.selectOne(queryWrapper);
 
 
-        QueryWrapper<Dict> queryWrapper2=new QueryWrapper<Dict>();
+        QueryWrapper<Dict> queryWrapper2 = new QueryWrapper<Dict>();
         queryWrapper2.eq("parent_id", dict.getId());
         queryWrapper2.eq("value", value);
 
@@ -108,9 +108,9 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
 
     private boolean isHasChildren(Long pid) {
-        QueryWrapper<Dict> queryWrapper=new QueryWrapper<Dict>();
-        queryWrapper.eq("parent_id",pid);
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
+        queryWrapper.eq("parent_id", pid);
         Integer count = baseMapper.selectCount(queryWrapper);
-        return count >0;
+        return count > 0;
     }
 }

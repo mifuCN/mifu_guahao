@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Map;
 
-public interface HospitalService{
+public interface HospitalService {
     void saveHospital(Map<String, Object> resultMap);
 
     String getSignKeyWithHoscode(String requestHoscode);

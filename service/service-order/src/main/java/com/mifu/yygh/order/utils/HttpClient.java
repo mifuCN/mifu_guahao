@@ -33,7 +33,6 @@ import java.util.Map;
  * http请求客户端
  *
  * @author mifu
- *
  */
 public class HttpClient {
 
@@ -46,6 +45,15 @@ public class HttpClient {
     private boolean isCert = false;
     //证书密码 微信商户号（mch_id）
     private String certPassword;
+
+    public HttpClient(String url, Map<String, String> param) {
+        this.url = url;
+        this.param = param;
+    }
+
+    public HttpClient(String url) {
+        this.url = url;
+    }
 
     public boolean isHttps() {
         return isHttps;
@@ -69,15 +77,6 @@ public class HttpClient {
 
     public void setXmlParam(String xmlParam) {
         this.xmlParam = xmlParam;
-    }
-
-    public HttpClient(String url, Map<String, String> param) {
-        this.url = url;
-        this.param = param;
-    }
-
-    public HttpClient(String url) {
-        this.url = url;
     }
 
     public String getCertPassword() {
@@ -141,14 +140,15 @@ public class HttpClient {
             http.setEntity(new StringEntity(xmlParam, Consts.UTF_8));
         }
     }
+
     private void execute(HttpUriRequest http) throws ClientProtocolException,
             IOException {
         CloseableHttpClient httpClient = null;
         try {
             if (isHttps) {
-                if(isCert) {
+                if (isCert) {
                     //TODO 需要完善:微信退款的时候在这里加载证书信息
-                    FileInputStream inputStream =new FileInputStream(new File("C:\\Users\\mifuRD\\Desktop\\mifuYYGH\\backend\\mifu_guahao\\service\\service-order\\src\\main\\resources\\apiclient_cert.p12"));
+                    FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\mifuRD\\Desktop\\mifuYYGH\\backend\\mifu_guahao\\service\\service-order\\src\\main\\resources\\apiclient_cert.p12"));
                     KeyStore keystore = KeyStore.getInstance("PKCS12");
                     char[] partnerId2charArray = certPassword.toCharArray();
                     keystore.load(inputStream, partnerId2charArray);
@@ -200,9 +200,11 @@ public class HttpClient {
             httpClient.close();
         }
     }
+
     public int getStatusCode() {
         return statusCode;
     }
+
     public String getContent() throws ParseException, IOException {
         return content;
     }

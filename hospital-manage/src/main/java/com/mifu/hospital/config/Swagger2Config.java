@@ -11,13 +11,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Swagger2配置信息
+ *
  * @author mifu
  */
 @Configuration
 public class Swagger2Config {
 
     @Bean
-    public Docket webApiConfig(){
+    public Docket webApiConfig() {
 
         return new Docket(DocumentationType.OAS_30)
                 .groupName("fu")
@@ -28,7 +29,7 @@ public class Swagger2Config {
 
     }
 
-    private ApiInfo webApiInfo(){
+    private ApiInfo webApiInfo() {
         return new ApiInfoBuilder()
                 .title("第三方医院资料导入系统-API文档")
                 .description("长风破浪会有时,直挂云帆济沧海")

@@ -25,7 +25,7 @@ public class SmsListener {
                     key = MqConst.ROUTING_SMS_ITEM
             )
     })
-    public void consume(MsmVo msmVo, Message message, Channel channel){
+    public void consume(MsmVo msmVo, Message message, Channel channel) {
         smsService.sendMessage(msmVo);
     }
 }

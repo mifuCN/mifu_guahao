@@ -21,25 +21,25 @@ public class ApiScheduleController {
     private ScheduleService scheduleService;
 
 
-
     @PostMapping("/schedule/remove")
-    public Result remove(HttpServletRequest request){
+    public Result remove(HttpServletRequest request) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(request.getParameterMap());
         //验证sign
         scheduleService.remove(stringObjectMap);
         return Result.ok();
     }
+
     //查询排班分页信息
     @PostMapping("/schedule/list")
-    public Result<Page> getSchedulePage(HttpServletRequest request){
+    public Result<Page> getSchedulePage(HttpServletRequest request) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(request.getParameterMap());
         //验证sign
-        Page<Schedule> schedulePage=scheduleService.getSchedulePage(stringObjectMap);
+        Page<Schedule> schedulePage = scheduleService.getSchedulePage(stringObjectMap);
         return Result.ok(schedulePage);
     }
 
     @PostMapping("/saveSchedule")
-    public Result saveSchedule(HttpServletRequest request){
+    public Result saveSchedule(HttpServletRequest request) {
         Map<String, Object> stringObjectMap = HttpRequestHelper.switchMap(request.getParameterMap());
         //验证sign
         scheduleService.saveSchedule(stringObjectMap);

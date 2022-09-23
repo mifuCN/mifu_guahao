@@ -1,6 +1,7 @@
 package com.mifu.yygh.order.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mifu.yygh.common.result.R;
 import com.mifu.yygh.common.utils.JwtHelper;
 import com.mifu.yygh.enums.OrderStatusEnum;
@@ -8,7 +9,6 @@ import com.mifu.yygh.model.order.OrderInfo;
 import com.mifu.yygh.order.service.OrderInfoService;
 import com.mifu.yygh.vo.order.OrderCountQueryVo;
 import com.mifu.yygh.vo.order.OrderQueryVo;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,28 +29,27 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService;
 
 
-
     @PostMapping("/statistics")
-    public Map<String,Object> statistics(@RequestBody OrderCountQueryVo orderCountQueryVo){
+    public Map<String, Object> statistics(@RequestBody OrderCountQueryVo orderCountQueryVo) {
         return orderInfoService.statistics(orderCountQueryVo);
     }
 
     @GetMapping("/cancel/{orderId}")
-    public R cancelOrder(@PathVariable Long orderId){
+    public R cancelOrder(@PathVariable Long orderId) {
         orderInfoService.cancelOrder(orderId);
         return R.ok();
     }
 
     @GetMapping("/{orderId}")
-    public R detail(@PathVariable Long orderId){
+    public R detail(@PathVariable Long orderId) {
         OrderInfo orderInfo = orderInfoService.detail(orderId);
-        return R.ok().data("orderInfo",orderInfo);
+        return R.ok().data("orderInfo", orderInfo);
     }
 
     @GetMapping("/list")
-    public R getOrderList(){
+    public R getOrderList() {
         List<Map<String, Object>> statusList = OrderStatusEnum.getStatusList();
-        return R.ok().data("list",statusList);
+        return R.ok().data("list", statusList);
     }
 
 
@@ -58,23 +57,23 @@ public class OrderInfoController {
     public R getOrderInfoPage(@PathVariable Integer pageNum,
                               @PathVariable Integer pageSize,
                               OrderQueryVo orderQueryVo,
-                              @RequestHeader String token){
+                              @RequestHeader String token) {
 
         Long userId = JwtHelper.getUserId(token);
         orderQueryVo.setUserId(userId);
-        Page<OrderInfo>  page= orderInfoService.getOrderInfoPage(pageNum,pageSize,orderQueryVo);
+        Page<OrderInfo> page = orderInfoService.getOrderInfoPage(pageNum, pageSize, orderQueryVo);
 
 
-        return R.ok().data("page",page);
+        return R.ok().data("page", page);
     }
 
 
     @PostMapping("/{scheduleId}/{patientId}")
-    public R  submitOrder(@PathVariable String scheduleId,
-                          @PathVariable Long patientId){
-       Long orderId= orderInfoService.submitOrder(scheduleId,patientId);
+    public R submitOrder(@PathVariable String scheduleId,
+                         @PathVariable Long patientId) {
+        Long orderId = orderInfoService.submitOrder(scheduleId, patientId);
 
-       return R.ok().data("orderId",orderId);
+        return R.ok().data("orderId", orderId);
     }
 
 }
