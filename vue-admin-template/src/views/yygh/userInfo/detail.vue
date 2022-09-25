@@ -63,7 +63,7 @@
       <el-table-column prop="phone" label="手机" />
       <el-table-column label="是否结婚">
         <template slot-scope="scope">
-          {{ scope.row.isMarry == 1 ? '时' : '否' }}
+          {{ scope.row.isMarry == 1 ? '是' : '否' }}
         </template>
       </el-table-column>
       <el-table-column prop="param.fullAddress" label="地址" />
