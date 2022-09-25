@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ManageApplication {
+public class HospitalManageApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ManageApplication.class, args);
+        SpringApplication.run(HospitalManageApplication.class, args);
     }
 }
