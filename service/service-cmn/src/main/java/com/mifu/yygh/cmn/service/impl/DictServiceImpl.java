@@ -42,7 +42,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     //,key = "'selectIndexList'+#pid"
-    @Cacheable(value = "abc", key = "'selectIndexList'+#pid")
+    @Cacheable(value = "fu_guahao", key = "'selectIndexList'+#pid")
     public List<Dict> getChildListByPid(Long pid) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
         queryWrapper.eq("parent_id", pid);
@@ -74,7 +74,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     @Override
-    @CacheEvict(value = "abc", allEntries = true)
+    @CacheEvict(value = "fu_guahao", allEntries = true)
     public void upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), DictEeVo.class, new DictListener(baseMapper)).sheet(0).doRead();
     }

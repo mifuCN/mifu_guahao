@@ -22,7 +22,7 @@ public class ExcelWriteDemo {
         studentList.add(new Student(6, "王志峰", 18, true));
 
 
-        ExcelWriter excelWriter = EasyExcel.write("C:\\Users\\LH\\Desktop\\abc.xlsx", Student.class).build();
+        ExcelWriter excelWriter = EasyExcel.write("C:\\Users\\MiFu\\Desktop\\mifu.xlsx", Student.class).build();
         WriteSheet sheet1 = EasyExcel.writerSheet(0, "学生列表1").build();
         WriteSheet sheet2 = EasyExcel.writerSheet(1, "学生列表2").build();
         excelWriter.write(students, sheet1);

@@ -42,7 +42,6 @@ public class SmsServiceImpl implements SmsService {
         querys.put("mobile", phone);
 
         String fourBitRandom = RandomUtil.getFourBitRandom();
-        System.out.println(fourBitRandom);
         querys.put("param", "code:" + fourBitRandom);
 
         querys.put("tpl_id", "TP1711063");
