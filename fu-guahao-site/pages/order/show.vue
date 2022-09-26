@@ -33,7 +33,7 @@
           <div class="right-wrapper">
             <img src="//img.114yygh.com/static/web/code_order_detail.png" class="code-img">
             <div class="content-wrapper">
-              <div> 微信<span class="iconfont"></span>关注“北京114预约挂号”</div>
+              <div> 微信<span class="iconfont"></span>关注“芾医疗预约挂号”</div>
               <div class="watch-wrapper"> 快速挂号，轻松就医</div>
             </div>
           </div>
@@ -80,7 +80,7 @@
           <div>1、请确认就诊人信息是否准确，若填写错误将无法取号就诊，损失由本人承担；<br>
             <span style="color:red">2、【取号】就诊当天需在{{ orderInfo.fetchTime }}在医院取号，未取号视为爽约，该号不退不换；</span><br>
             3、【退号】在{{ orderInfo.quitTime }}前可在线退号 ，逾期将不可办理退号退费；<br>
-            4、北京114预约挂号支持自费患者使用身份证预约，同时支持北京市医保患者使用北京社保卡在平台预约挂号。请于就诊当日，携带预约挂号所使用的有效身份证件到院取号；<br>
+            4、芾医疗预约挂号支持自费患者使用身份证预约，同时支持北京市医保患者使用北京社保卡在平台预约挂号。请于就诊当日，携带预约挂号所使用的有效身份证件到院取号；<br>
             5、请注意北京市医保患者在住院期间不能使用社保卡在门诊取号。
           </div>
         </div>
@@ -102,7 +102,7 @@
           <div class="wrapper wechat">
             <div>
               <qriously :value="url" :size="220"/>
-            
+
               <div style="text-align: center;line-height: 25px;margin-bottom: 40px;">
                 请使用微信扫一扫<br/>
                 扫描二维码支付
@@ -154,7 +154,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消操作'
-          });          
+          });
         });
     },
 
@@ -184,12 +184,12 @@ export default {
               }
            })
 
-           
+
       },
 
     init() {
       orderInfoApi.detail(this.orderId).then(response => {
-       
+
         this.orderInfo = response.data.orderInfo
       })
     }
