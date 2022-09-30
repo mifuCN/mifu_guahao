@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLException;
 
-@RestControllerAdvice //凡是由@ControllerAdvice 标记的类都表示全局异常处理类
+/**
+ * 直接返回异常的信息给用户,用户也看不懂,就十分不友好
+ * 需要在全局异常处理器中处理
+ */
+// 凡是由@ControllerAdvice 标记的类都表示全局异常处理类
+// @RestControllerAdvice = @ResponseBody + @ControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(value = Exception.class)//粒度：
+    @ExceptionHandler(value = Exception.class)// 兜底的异常
     public R handleException(Exception ex) {
-        ex.printStackTrace();//输出异常：日志文件
+        ex.printStackTrace();//输出异常：日志文件 方便开发或运维排查错误
         log.error(ex.getMessage());
         return R.error().message(ex.getMessage());
     }

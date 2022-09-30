@@ -18,6 +18,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
+/**
+ * 每次查数据字典都要查3000多条数据,我们需要集成redis
+ */
 @Configuration
 @EnableCaching
 public class RedisConfig {

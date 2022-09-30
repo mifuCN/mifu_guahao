@@ -29,23 +29,23 @@ public class SmsServiceImpl implements SmsService {
         if (!StringUtils.isEmpty(redisCode)) {
             return true;
         }
-        String host = "http://dingxin.market.alicloudapi.com";
+        String host = "http://dingxin.market.alicloudapi.com"; // 使用山东鼎信的服务，支持个人
         String path = "/dx/sendSms";
         String method = "POST";
-        String appcode = "38c3a98dfc8d4d51a1ffd3c820bffbc3";
+        String appcode = "38c3a98dfc8d4d51a1ffd3c820bffbc3"; // 填入自己的appcode
 
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-        headers.put("Authorization", "APPCODE " + appcode);
+        headers.put("Authorization", "APPCODE " + appcode); // 做发送校验，主要是检查你是否付费 哈哈哈
 
         Map<String, String> querys = new HashMap<String, String>();
-        querys.put("mobile", phone);
+        querys.put("mobile", phone); // 发送给谁
 
         String fourBitRandom = RandomUtil.getFourBitRandom();
-        querys.put("param", "code:" + fourBitRandom);
+        querys.put("param", "code:" + fourBitRandom); // 发送的验证码
 
         querys.put("tpl_id", "TP1711063");
-        Map<String, String> bodys = new HashMap<String, String>();
+        Map<String, String> bodys = new HashMap<String, String>();// 固定的 不能改
 
 
         try {

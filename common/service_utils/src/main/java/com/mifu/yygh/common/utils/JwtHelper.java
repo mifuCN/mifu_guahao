@@ -6,8 +6,8 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 
 public class JwtHelper {
-    private static long tokenExpiration = 24 * 60 * 60 * 1000;
-    private static String tokenSignKey = "123456";
+    private static long tokenExpiration = 24 * 60 * 60 * 1000; // 一天
+    private static String tokenSignKey = "mifu";
 
     public static String createToken(Long userId, String userName) {
         String token = Jwts.builder()
@@ -15,13 +15,13 @@ public class JwtHelper {
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration)) //设置token的过期时间
                 .claim("userId", userId)
                 .claim("userName", userName)
-                .signWith(SignatureAlgorithm.HS512, tokenSignKey)
+                .signWith(SignatureAlgorithm.HS512, tokenSignKey)//使用HS512这个算法,加上盐值
                 .compressWith(CompressionCodecs.GZIP)
                 .compact();
         return token;
     }
 
-
+    // 解析用户id
     public static Long getUserId(String token) {
         if (StringUtils.isEmpty(token)) return null;
 
@@ -31,6 +31,7 @@ public class JwtHelper {
         return userId.longValue();
     }
 
+    // 解析用户名
     public static String getUserName(String token) {
         if (StringUtils.isEmpty(token)) return "";
         Jws<Claims> claimsJws
@@ -40,10 +41,12 @@ public class JwtHelper {
     }
 
     public static void main(String[] args) {
-        String token = JwtHelper.createToken(1L, "55");
-        System.out.println(token);
+        //模拟生成token
+        String token = JwtHelper.createToken(1755786251L, "mifu");
+        System.out.println("模拟生成的token是: " + token);
 
-        System.out.println(JwtHelper.getUserId("exJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSiox099ANDXYNUtJRSq0oULIyNDM1MTQxtDQ011EqLU4t8kwBikGYfom5qUAtpqZKtQBdr8cqPwAAAA.jsM-3rEYpU0cdXe07IHfQ-FSiAX2b3-cL3YfV5wLHczRhhxrood-IFViKa_Aqd9vdIoDNz0TR_1XfFQpFYHgIg"));
-        System.out.println(JwtHelper.getUserName(token));
+        //模拟解析token
+        System.out.println("解析到的id是: " + JwtHelper.getUserId("eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSiox099ANDXYNUtJRSq0oULIyNDMzMTU0NDEz0VEqLU4t8kwBipmbmppbmBmZGkLE_BJzU4F6czPTSpVqAabO1V9KAAAA.pXAHqEnGB3oUbI9dZrsiYpU3G0BmFopeLaeb5oyYdRxgtB5bmHQ-elegQo3iGUbIPh-Vi4goo2lZeU9h-QhVRg"));
+        System.out.println("解析到的用户名是: " + JwtHelper.getUserName(token));
     }
 }

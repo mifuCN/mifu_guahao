@@ -8,7 +8,7 @@ public class EasyExcelReadDemo {
 
     //方式二：读取excel文件的多个sheet
     public static void main(String[] args) {
-        ExcelReader excelReader = EasyExcel.read("C:\\Users\\MiFu\\Desktop\\mifu.xlsx").build();
+        ExcelReader excelReader = EasyExcel.read("C:\\Users\\mifuRD\\Desktop\\mifu.xlsx").build();
         ReadSheet sheet1 = EasyExcel.readSheet(0).head(Student.class).registerReadListener(new StudentListener()).build();
         ReadSheet sheet2 = EasyExcel.readSheet(1).head(Student.class).registerReadListener(new StudentListener()).build();
 

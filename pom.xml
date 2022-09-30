@@ -31,10 +31,9 @@
         <!-- 开发 -->
         <profile>
             <id>dev</id>
-            <activation>
-                <!--默认激活配置-->
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <!--<activation>-->
+            <!--    <activeByDefault>true</activeByDefault>-->
+            <!--</activation>-->
             <properties>
                 <!--当前环境-->
                 <yygh.profile.name>dev</yygh.profile.name>
@@ -57,6 +56,8 @@
                 <yygh.nacos.port>8848</yygh.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
                 <yygh.nacos.namespace>29aafd00-b3de-4497-9b99-cb928f31b531</yygh.nacos.namespace>
+                <yygh.nacos.username>mifu-yygh</yygh.nacos.username>
+                <yygh.nacos.password>201314.tk</yygh.nacos.password>
             </properties>
         </profile>
         <!-- 生产 -->
@@ -69,6 +70,8 @@
                 <yygh.nacos.port>8848</yygh.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
                 <yygh.nacos.namespace>29aafd00-b3de-4497-9b99-cb928f31b531</yygh.nacos.namespace>
+                <yygh.nacos.username>mifu-yygh</yygh.nacos.username>
+                <yygh.nacos.password>201314.tk</yygh.nacos.password>
             </properties>
         </profile>
     </profiles>
@@ -179,6 +182,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<configuration>-->
+                <!--    <skip>true</skip>-->
+                <!--</configuration>-->
             </plugin>
         </plugins>
         <resources>

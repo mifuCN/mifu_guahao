@@ -31,17 +31,15 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
 
     /*=============================================
-         springcache:底层redis、memcache
+         SpringCache:底层redis、memcache     使用方式
            1. 导入starter依赖
            2. application.properties: redis连接信息
            3. 在配置类中提供一个cacheManager,在配置类上标记@EnableCaching开启缓存支持注解
-           4.@Cacheable(value="")            ：key::value
+           4. @Cacheable(value="")
       ============================================*/
 
-    //@Cacheable(value = "dict",keyGenerator = "keyGenerator")
-
+//    @Cacheable(value = "fu_guahao",keyGenerator = "keyGenerator")
     @Override
-    //,key = "'selectIndexList'+#pid"
     @Cacheable(value = "fu_guahao", key = "'selectIndexList'+#pid")
     public List<Dict> getChildListByPid(Long pid) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
@@ -67,9 +65,9 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
         // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
-        String fileName = URLEncoder.encode("字典文件", "UTF-8");
+        String fileName = URLEncoder.encode("芾医疗字典文件", "UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-        //这么写有没有问题？
+        //原先这里路径是写死的 前后端联调时发现这样每次都是下载到服务器 不是用户的本地  修改一下 用输出流
         EasyExcel.write(response.getOutputStream(), DictEeVo.class).sheet("学生列表1").doWrite(dictEeVoList);
     }
 
@@ -77,7 +75,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @CacheEvict(value = "fu_guahao", allEntries = true)
     public void upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), DictEeVo.class, new DictListener(baseMapper)).sheet(0).doRead();
-    }
+    }//联调回来看这里第一时间看不懂了 回顾 new DictListener(baseMapper) 因为DictListener中不建议spring管理,用了构造器的方式传入了DishMapper
 
     @Override
     public String getNameByValue(Long value) {
@@ -107,6 +105,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
 
+    // 查询该id是否有子元素
     private boolean isHasChildren(Long pid) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>();
         queryWrapper.eq("parent_id", pid);

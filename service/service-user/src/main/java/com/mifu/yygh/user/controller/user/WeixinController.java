@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@Controller // 别用@RestController
 @RequestMapping("/user/userinfo/wx")
 public class WeixinController {
 
@@ -34,6 +34,7 @@ public class WeixinController {
     @GetMapping("/param")
     @ResponseBody
     public R getWeixinLoginParam() throws UnsupportedEncodingException {
+        // 这个东西不仔细看还发现不了,测试的时候微信一致没有回调我们的后端  看文档发现需要进行UrlEncode
         String url = URLEncoder.encode(weixinProperties.getRedirecturl(), "UTF-8");
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -44,7 +45,7 @@ public class WeixinController {
         return R.ok().data(map);
     }
 
-
+    //微信会携带code,state参数回调我们的后端接口
     @GetMapping("/callback")
     public String callback(String code, String state) throws Exception {
 

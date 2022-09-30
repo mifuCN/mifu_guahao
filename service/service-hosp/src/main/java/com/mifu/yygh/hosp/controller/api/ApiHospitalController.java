@@ -6,6 +6,7 @@ import com.mifu.yygh.hosp.bean.Result;
 import com.mifu.yygh.hosp.service.HospitalService;
 import com.mifu.yygh.hosp.utlis.HttpRequestHelper;
 import com.mifu.yygh.model.hosp.Hospital;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ public class ApiHospitalController {
         return Result.ok(hospital);
     }
 
+    @ApiOperation("上传医院")
     @PostMapping("/saveHospital")
     public Result saveHospital(HttpServletRequest request) {
         // 1.获取所有的参数
@@ -44,7 +46,7 @@ public class ApiHospitalController {
 
         //signkey验证
         if (!StringUtils.isEmpty(requestSignKey) && !StringUtils.isEmpty(encrypt) && encrypt.equals(requestSignKey)) {
-
+            // Base64加密的密文传输过程中会将 + 变为 " ",我们要手动恢复
             String logoData = (String) resultMap.get("logoData");
             String result = logoData.replaceAll(" ", "+");
             resultMap.put("logoData", result);

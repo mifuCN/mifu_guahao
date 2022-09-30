@@ -56,23 +56,24 @@ public class WeiPayServiceImpl implements WeiPayService {
         String reserveDateString = new DateTime(reserveDate).toString("yyyy/MM/dd");
         String body = reserveDateString + "就诊" + orderInfo.getDepname();
 
-        paramMap.put("body", body);
+        paramMap.put("body", "芾医疗:" + body);
         paramMap.put("out_trade_no", orderInfo.getOutTradeNo());
-        paramMap.put("total_fee", "1");
+        paramMap.put("total_fee", "30");//按理来说这里应该是数据库中查价钱,但是这里我怕公司挂了，不能退钱 设小一点3毛吧 哈哈哈  退款的地方一起要改哦
 
         paramMap.put("spbill_create_ip", "127.0.0.1");
-        paramMap.put("notify_url", "http://guli.shop/api/order/weixinPay/weixinNotify");
+        //该项目还没有公网地址给微信回调,通知我们用户支付成功,我们可以主动请求微信服务器去主动查询支付情况(用定时器查询)
+        paramMap.put("notify_url", "https://201314.tk/");//先写我的博客
         paramMap.put("trade_type", "NATIVE");
 
 
         try {
             httpClient.setXmlParam(WXPayUtil.generateSignedXml(paramMap, weiPayProperties.getPartnerkey()));//设置超参数
-            httpClient.setHttps(true);//支持https协议
+            httpClient.setHttps(true);//上面的地址是https协议的 需要支持https协议
             httpClient.post(); //发送请求
 
             String xmlResult = httpClient.getContent();
             Map<String, String> stringStringMap = WXPayUtil.xmlToMap(xmlResult);
-            return stringStringMap.get("code_url");
+            return stringStringMap.get("code_url"); // 这个是微信支付的二维码
         } catch (Exception ex) {
             return "";
         }
@@ -152,8 +153,8 @@ public class WeiPayServiceImpl implements WeiPayService {
         //       paramMap.put("total_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
         //       paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
 
-        paramMap.put("total_fee", "1");
-        paramMap.put("refund_fee", "1");
+        paramMap.put("total_fee", "30");
+        paramMap.put("refund_fee", "30");
         try {
             String paramXml = WXPayUtil.generateSignedXml(paramMap, weiPayProperties.getPartnerkey());
             httpClient.setXmlParam(paramXml);

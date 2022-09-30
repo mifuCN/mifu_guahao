@@ -7,7 +7,7 @@
 
     <contextName>logback</contextName>
     <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。 -->
-    <property name="log.path" value="D:/mifuYYGH_log"/>
+    <property name="log.path" value="D:/mifu_guahao_log/guahao"/>
 
     <!-- 彩色日志 -->
     <!-- 配置格式变量：CONSOLE_LOG_PATTERN 彩色日志格式 -->
@@ -20,10 +20,10 @@
               value="%yellow(%date{yyyy-MM-dd HH:mm:ss}) |%highlight(%-5level) |%blue(%thread) |%blue(%file:%line) |%green(%logger) |%cyan(%msg%n)"/>
 
 
-    <!--输出到控制台-->
+    <!--往控制台输出-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
-        <!-- 例如：如果此处配置了INFO级别，则后面其他位置即使配置了DEBUG级别的日志，也不会被输出 -->
+        <!-- 例如：此处配置了INFO级别，那就只输出INFO级别以上的，则后面其他位置即使配置了DEBUG级别的日志，也不会被输出 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -35,8 +35,7 @@
     </appender>
 
 
-    <!--输出到文件-->
-
+    <!--往文件输出-->
     <!-- 时间滚动输出 level为 INFO 日志 -->
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文件的路径及文件名 -->
@@ -46,7 +45,7 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
-        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录  这里到了100MB和15天,就会往${log.path}/info/log-info-%d{yyyy-MM-dd}.%i.log目录写新的日志 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天日志归档路径以及格式 -->
             <fileNamePattern>${log.path}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -56,7 +55,7 @@
             <!--日志文件保留天数-->
             <maxHistory>15</maxHistory>
         </rollingPolicy>
-        <!-- 此日志文件只记录info级别的 -->
+        <!-- 此日志文件只记录info级别的 DENY就是不接收其他级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -130,6 +129,7 @@
         第一种把<root level="INFO">改成<root level="DEBUG">这样就会打印sql，不过这样日志那边会出现很多其他消息
         第二种就是单独给mapper下目录配置DEBUG模式，代码如下，这样配置sql语句会打印，其他还是正常DEBUG级别：
      -->
+
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
         <!--可以输出项目中的debug日志，包括mybatis的sql日志-->
@@ -140,6 +140,7 @@
             <appender-ref ref="ERROR_FILE"/>
         </logger>
         <!--
+            root的配置是对整个项目有效的  上面的就是对com.mifu包下的有效,优先使用更具体的com.mifu的配置
             root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性
             level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，默认是DEBUG
             可以包含零个或多个appender元素。

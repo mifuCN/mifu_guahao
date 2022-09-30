@@ -5,7 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class HttpRequestHelper {
-
+    /**
+     * 返回封装好的resultMap  是 键值对的形式
+     * @param parameterMap
+     * @return
+     */
     public static Map<String, Object> switchMap(Map<String, String[]> parameterMap) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 

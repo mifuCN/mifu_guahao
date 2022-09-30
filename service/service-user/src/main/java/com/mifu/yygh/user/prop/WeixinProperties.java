@@ -3,11 +3,15 @@ package com.mifu.yygh.user.prop;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "weixin")
+/**
+ * 该类用来获取配置文件中的键对应的值
+ */
+@ConfigurationProperties(prefix = "weixin") //去application文件中加载以微信开通的键,属性名得一致
 @Data
-//@Component+@Value
-//@Component+@ConfigurationProperties(prefix = "weixin")
-//+@ConfigurationProperties(prefix = "weixin")+@EnableConfigurationProperties(value = WeixinProperties.class)
+//读取配置文件的三种方式
+//1.@Component+@Value
+//2.@Component+@ConfigurationProperties(prefix = "weixin")
+//3.@ConfigurationProperties(prefix = "weixin") + 主启动类@EnableConfigurationProperties(value = WeixinProperties.class)
 public class WeixinProperties {
 
 

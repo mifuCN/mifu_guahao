@@ -68,6 +68,7 @@ public class OrderInfoController {
     }
 
 
+    //确认挂号
     @PostMapping("/{scheduleId}/{patientId}")
     public R submitOrder(@PathVariable String scheduleId,
                          @PathVariable Long patientId) {
