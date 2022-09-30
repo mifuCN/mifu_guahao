@@ -10,7 +10,7 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
-// request interceptor
+// request 前端请求拦截器
 service.interceptors.request.use(
   config => {
     // do something before request is sent
@@ -30,7 +30,7 @@ service.interceptors.request.use(
   }
 )
 
-// response interceptor
+// response 后端响应拦截器
 service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
@@ -44,7 +44,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-
+    // 这里res就是response.data咯,故我们发送请求时,以前res.data才是后端返回的数据,现在res就是后端响应的数据
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 20000) {
       Message({

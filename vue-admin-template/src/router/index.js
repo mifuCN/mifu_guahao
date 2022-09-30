@@ -167,13 +167,13 @@ export const constantRoutes = [
     meta: { title: '统计管理', icon: 'table' },
     alwaysShow: true,
     children: [
-        {
+      {
         path: 'order/index',
         name: '预约统计',
-        component: () =>import('@/views/yygh/sta/index'),
+        component: () => import('@/views/yygh/sta/index'),
         meta: { title: '预约统计' }
-        }
-      ]
+      }
+    ]
   },
 
   {

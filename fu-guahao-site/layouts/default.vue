@@ -5,7 +5,7 @@
       <myheader/>
       <div class="main-container">
         <el-scrollbar class='page-component__scroll'>
-          <!-- 内容区域 -->
+          <!-- 内容区域 <nuxt/> 标签就是把pages里的index.vue填充过来了-->
           <nuxt/>
         </el-scrollbar>
       </div>

@@ -101,6 +101,7 @@
         <div class="operate-view" style="height: 350px;">
           <div class="wrapper wechat">
             <div>
+              <!--将地址转换为二维码的组件Qriously-->
               <qriously :value="url" :size="220"/>
 
               <div style="text-align: center;line-height: 25px;margin-bottom: 40px;">

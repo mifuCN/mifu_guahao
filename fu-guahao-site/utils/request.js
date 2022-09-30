@@ -1,3 +1,4 @@
+//根据芾医疗管理员后端复制过来的
 import axios from 'axios'
 import { MessageBox, Message, ColorPicker } from 'element-ui'
 //引入js-cookie
@@ -7,7 +8,7 @@ const service = axios.create({
     baseURL: 'http://localhost:8222',
     timeout: 15000 // 请求超时时间
 })
-// http request 拦截器
+// http 前端请求 拦截器
 service.interceptors.request.use(
     config => {
     // token 先不处理，后续使用时在完善
@@ -20,7 +21,7 @@ service.interceptors.request.use(
   err => {
     return Promise.reject(err)
 })
-// http response 拦截器
+// http 后端响应 拦截器
 service.interceptors.response.use(
     response => {
         if (response.data.code !== 20000) {

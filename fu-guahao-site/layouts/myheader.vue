@@ -151,7 +151,7 @@ export default {
     loginEvent.$on('loginDialogEvent', function () {
         document.getElementById("loginDialog").click();
     })
-
+    //步骤1：在页面中先引入如下 JS 文件
     const script = document.createElement('script')
     script.type = 'text/javascript'
     script.src = 'https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js'
@@ -313,12 +313,12 @@ export default {
 
     weixinLogin() {
       this.dialogAtrr.showLoginType = 'weixin'
-
+      // 步骤2：在需要使用微信登录的地方实例以下 JS 对象
       wxApi.getWeixinParam().then(resp=>{
              var obj = new WxLogin({
-              self_redirect:true,
-              id:"weixinLogin", //显示二维码的容器
-              appid: resp.data.appid,
+              self_redirect:true,//这个是必填的，不是官方文档那样
+              id:"weixinLogin", //显示二维码的容器id
+              appid: resp.data.appid,//这几个申请的值直接写在这不安全，我们从后端拿过来
               scope: resp.data.scope,
               redirect_uri: resp.data.redirecturl,
               state:  resp.data.state
