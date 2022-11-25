@@ -153,7 +153,7 @@ public class WeiPayServiceImpl implements WeiPayService {
         //       paramMap.put("total_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
         //       paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
 
-        paramMap.put("total_fee", "30");
+        paramMap.put("total_fee", "30"); //3毛
         paramMap.put("refund_fee", "30");
         try {
             String paramXml = WXPayUtil.generateSignedXml(paramMap, weiPayProperties.getPartnerkey());

@@ -80,7 +80,7 @@ public class HospitalSetController {
     public R save(@RequestBody HospitalSet hospitalSet) {
         //设置医院能否使用  1 启用   0 不启用  默认不启用
         hospitalSet.setStatus(0);
-        //当前时间戳+随机数+MD5加密来生成sign_key
+        //当前时间戳+随机数+MD5加密来生成sign_key 第三方密钥
         Random random = new Random();
         hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
         hospitalSetService.save(hospitalSet);
