@@ -2,6 +2,9 @@
 
 基于SpringCloud+Vue的医院挂号系统
 
+## 后端 https://github.com/mifuCN/mifu_guahao/tree/backend
+## 前端 https://github.com/mifuCN/mifu_guahao/tree/frontend
+
 本项目是一个完整的微服务预约挂号平台，包含 3 个系统：
 
 1. 预约挂号系统前台
